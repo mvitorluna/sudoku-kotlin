@@ -12,12 +12,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.sudoku.data.local.AppDatabase
+import com.example.sudoku.data.repository.ConquistaRepository
 import com.example.sudoku.ui.conquistas.AbaConquistas
+import com.example.sudoku.ui.conquistas.ConquistasViewModel
+import com.example.sudoku.ui.conquistas.ConquistasViewModelFactory
 import com.example.sudoku.ui.desafios.AbaDesafios
 import com.example.sudoku.ui.historico.AbaHistorico
 import com.example.sudoku.ui.novojogo.AbaJogar
@@ -25,8 +33,20 @@ import com.example.sudoku.ui.ranking.AbaRanking
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TelaJogador(onVoltar: () -> Unit, onAbrirJogo: (String, Long) -> Unit) {
+fun TelaJogador(
+    onVoltar: () -> Unit,
+    onAbrirJogo: (String, Long) -> Unit,
+    conquistasViewModel: ConquistasViewModel = viewModel(
+        factory = ConquistasViewModelFactory(
+            ConquistaRepository(
+                AppDatabase.getDatabase(LocalContext.current).conquistaDAO(),
+                AppDatabase.getDatabase(LocalContext.current).partidaDAO()
+            )
+        )
+    )
+) {
     val navInterno = rememberNavController()
+    val conquistasUiState by conquistasViewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -47,7 +67,12 @@ fun TelaJogador(onVoltar: () -> Unit, onAbrirJogo: (String, Long) -> Unit) {
                 )
             )
         },
-        bottomBar = { BottomNavJogador(navInterno = navInterno) }
+        bottomBar = {
+            BottomNavJogador(
+                navInterno = navInterno,
+                temConquistaNova = conquistasUiState.temNovaNaoVista
+            )
+        }
     ) { padding ->
         NavHost(
             navController = navInterno,
