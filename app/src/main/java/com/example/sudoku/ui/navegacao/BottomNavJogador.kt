@@ -6,6 +6,8 @@ import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Leaderboard
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -39,16 +41,21 @@ fun NavHostController.irParaAba(rota: String) {
 }
 
 @Composable
-fun BottomNavJogador(navInterno: NavHostController) {
+fun BottomNavJogador(navInterno: NavHostController, temConquistaNova: Boolean = false) {
     val backStackEntry by navInterno.currentBackStackEntryAsState()
     val rotaAtual = backStackEntry?.destination?.route
 
     NavigationBar {
         abasJogador.forEach { aba ->
+            val mostrarAviso = aba.rota == RotasJogador.ABA_CONQUISTAS && temConquistaNova
             NavigationBarItem(
                 selected = rotaAtual == aba.rota,
                 onClick = { navInterno.irParaAba(aba.rota) },
-                icon = { Icon(aba.icone, contentDescription = aba.titulo) },
+                icon = {
+                    BadgedBox(badge = { if (mostrarAviso) Badge() }) {
+                        Icon(aba.icone, contentDescription = aba.titulo)
+                    }
+                },
                 label = { Text(aba.titulo) }
             )
         }
@@ -59,6 +66,6 @@ fun BottomNavJogador(navInterno: NavHostController) {
 @Composable
 fun BottomNavJogadorPreview() {
     MaterialTheme {
-        BottomNavJogador(navInterno = rememberNavController())
+        BottomNavJogador(navInterno = rememberNavController(), temConquistaNova = true)
     }
 }

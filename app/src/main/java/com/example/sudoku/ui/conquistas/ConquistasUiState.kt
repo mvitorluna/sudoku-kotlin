@@ -29,6 +29,7 @@ data class ConquistasUiState(
     val totalDesbloqueadas: Int = 0,
     val filtro: FiltroConquista = FiltroConquista.TODAS,
     val confirmandoReset: Boolean = false,
+    val temNovaNaoVista: Boolean = false,
     val erro: String? = null
 ) {
     val textoContador: String

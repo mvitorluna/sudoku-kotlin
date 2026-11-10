@@ -40,6 +40,11 @@ class ConquistasViewModel(
                 }
             }
         }
+        viewModelScope.launch {
+            repository.existeNovaNaoVista().collect { temNova ->
+                _uiState.update { it.copy(temNovaNaoVista = temNova) }
+            }
+        }
     }
 
     fun onTelaAberta() {
