@@ -1,7 +1,6 @@
 package com.example.sudoku.ui.novojogo
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,10 +43,10 @@ fun TabuleiroSudoku(
         Nivel.DIFICIL -> 16.sp
     }
 
+    val corBorda = MaterialTheme.colorScheme.outline
+
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .border(2.dp, MaterialTheme.colorScheme.outline)
+        modifier = modifier.fillMaxWidth()
     ) {
         for (r in 0 until n) {
             Row(
@@ -57,8 +58,10 @@ fun TabuleiroSudoku(
                     val temConflito = conflitos.contains(r to c)
                     val valor = tabuleiro.getOrNull(r)?.getOrNull(c) ?: 0
 
-                    val bordaCima = if (r % bl == 0) 2.dp else 0.5.dp
-                    val bordaEsquerda = if (c % bc == 0) 2.dp else 0.5.dp
+                    val espessuraCima = if (r % bl == 0) 3.dp else 1.dp
+                    val espessuraEsquerda = if (c % bc == 0) 3.dp else 1.dp
+                    val espessuraDireita = if (c == n - 1) 3.dp else 0.dp
+                    val espessuraBaixo = if (r == n - 1) 3.dp else 0.dp
 
                     val corFundo = if (ehSelecionada) {
                         MaterialTheme.colorScheme.primaryContainer
@@ -78,8 +81,41 @@ fun TabuleiroSudoku(
                             .weight(1f)
                             .aspectRatio(1f)
                             .background(corFundo)
-                            .border(bordaCima, MaterialTheme.colorScheme.outline)
-                            .border(bordaEsquerda, MaterialTheme.colorScheme.outline)
+                            .drawBehind {
+                                val topPx = espessuraCima.toPx()
+                                val leftPx = espessuraEsquerda.toPx()
+                                val rightPx = espessuraDireita.toPx()
+                                val bottomPx = espessuraBaixo.toPx()
+
+                                drawLine(
+                                    color = corBorda,
+                                    start = Offset(0f, 0f),
+                                    end = Offset(size.width, 0f),
+                                    strokeWidth = topPx
+                                )
+                                drawLine(
+                                    color = corBorda,
+                                    start = Offset(0f, 0f),
+                                    end = Offset(0f, size.height),
+                                    strokeWidth = leftPx
+                                )
+                                if (rightPx > 0f) {
+                                    drawLine(
+                                        color = corBorda,
+                                        start = Offset(size.width, 0f),
+                                        end = Offset(size.width, size.height),
+                                        strokeWidth = rightPx
+                                    )
+                                }
+                                if (bottomPx > 0f) {
+                                    drawLine(
+                                        color = corBorda,
+                                        start = Offset(0f, size.height),
+                                        end = Offset(size.width, size.height),
+                                        strokeWidth = bottomPx
+                                    )
+                                }
+                            }
                             .clickable { onCasaClick(r, c) }
                     ) {
                         if (valor != 0) {
