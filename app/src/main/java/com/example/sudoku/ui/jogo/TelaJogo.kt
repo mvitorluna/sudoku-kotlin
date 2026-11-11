@@ -1,5 +1,6 @@
 package com.example.sudoku.ui.jogo
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,207 +12,230 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.sudoku.data.local.AppDatabase
+import com.example.sudoku.data.repository.ConquistaRepository
+import com.example.sudoku.data.repository.PartidaRepository
+import com.example.sudoku.data.repository.RankingRepository
 import com.example.sudoku.logic.GeradorSudoku
 import com.example.sudoku.logic.Nivel
-import com.example.sudoku.logic.Pontuacao
-import com.example.sudoku.logic.ValidadorSudoku
 import com.example.sudoku.ui.novojogo.TabuleiroSudoku
 import com.example.sudoku.ui.novojogo.TecladoNumerico
-import kotlinx.coroutines.delay
-import java.util.Locale
 import kotlin.random.Random
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelaJogo(
     nivel: String,
     semente: Long,
-    onVoltar: () -> Unit
+    onVoltar: () -> Unit,
+    viewModel: JogoViewModel = viewModel(
+        factory = JogoViewModelFactory(
+            nivel = Nivel.deTexto(nivel),
+            semente = semente,
+            partidaRepository = PartidaRepository(AppDatabase.getDatabase(LocalContext.current).partidaDAO()),
+            conquistaRepository = ConquistaRepository(
+                AppDatabase.getDatabase(LocalContext.current).conquistaDAO(),
+                AppDatabase.getDatabase(LocalContext.current).partidaDAO()
+            ),
+            rankingRepository = RankingRepository()
+        )
+    )
 ) {
-    val nivelObj = remember(nivel) { Nivel.deTexto(nivel) }
-    val jogoInicial = remember(nivel, semente) {
-        val rnd = if (semente == 0L) Random.Default else Random(semente)
-        GeradorSudoku.gerar(nivelObj, rnd)
-    }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    var tabuleiro by remember(jogoInicial) { mutableStateOf(jogoInicial.tabuleiro) }
-    val gabarito = jogoInicial.gabarito
+    // Sair no meio do jogo pede confirmação; depois que acabou, sai direto
+    val pedirParaSair = { if (uiState.acabou) onVoltar() else viewModel.onPedirSair() }
+    BackHandler { pedirParaSair() }
 
-    val fixas = remember(jogoInicial) {
-        val set = mutableSetOf<Pair<Int, Int>>()
-        for (r in 0 until nivelObj.tamanho) {
-            for (c in 0 until nivelObj.tamanho) {
-                if (jogoInicial.tabuleiro[r][c] != 0) {
-                    set.add(r to c)
-                }
-            }
-        }
-        set
-    }
+    ConteudoJogo(
+        uiState = uiState,
+        onVoltarClick = pedirParaSair,
+        onCasaClick = { linha, coluna -> viewModel.onCasaClick(linha, coluna) },
+        onNumeroClick = { viewModel.onNumeroClick(it) },
+        onApagar = { viewModel.onApagar() },
+        onDica = { viewModel.onDica() },
+        onNomeChange = { viewModel.onNomeChange(it) },
+        onPublicar = { viewModel.onPublicarRanking() },
+        onJogarDeNovo = { viewModel.onJogarDeNovo() },
+        onSair = onVoltar,
+        onCancelarSaida = { viewModel.onCancelarSaida() },
+        onErroVisto = { viewModel.onErroVisto() }
+    )
+}
 
-    var selecionada by remember { mutableStateOf<Pair<Int, Int>?>(null) }
-    var erros by remember { mutableIntStateOf(0) }
-    var dicasRestantes by remember { mutableIntStateOf(nivelObj.dicas) }
-    var tempoSegundos by remember { mutableIntStateOf(0) }
-    var jogoAcabou by remember { mutableStateOf(false) }
-    var venceu by remember { mutableStateOf(false) }
-
-    val conflitos = remember(tabuleiro) { ValidadorSudoku.conflitos(tabuleiro, nivelObj) }
-
-    LaunchedEffect(jogoAcabou) {
-        while (!jogoAcabou) {
-            delay(1000)
-            tempoSegundos++
-        }
-    }
-
-    fun checarFimDeJogo(novoTabuleiro: List<List<Int>>, novosErros: Int) {
-        if (novosErros >= 3) {
-            jogoAcabou = true
-            venceu = false
-        } else if (ValidadorSudoku.venceu(novoTabuleiro, nivelObj)) {
-            jogoAcabou = true
-            venceu = true
-        }
-    }
-
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ConteudoJogo(
+    uiState: JogoUiState,
+    onVoltarClick: () -> Unit,
+    onCasaClick: (Int, Int) -> Unit,
+    onNumeroClick: (Int) -> Unit,
+    onApagar: () -> Unit,
+    onDica: () -> Unit,
+    onNomeChange: (String) -> Unit,
+    onPublicar: () -> Unit,
+    onJogarDeNovo: () -> Unit,
+    onSair: () -> Unit,
+    onCancelarSaida: () -> Unit,
+    onErroVisto: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    val min = tempoSegundos / 60
-                    val seg = tempoSegundos % 60
-                    val tempoFmt = String.format(Locale.getDefault(), "%02d:%02d", min, seg)
-                    Text("${nivelObj.titulo} ${nivelObj.tamanho}x${nivelObj.tamanho} - $tempoFmt")
-                },
+                title = { Text(uiState.titulo) },
                 navigationIcon = {
-                    IconButton(onClick = onVoltar) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+                    IconButton(onClick = onVoltarClick) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Voltar"
+                        )
                     }
-                }
+                },
+                actions = {
+                    Text(
+                        text = uiState.tempoFormatado,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.padding(end = 16.dp)
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                )
             )
         }
-    ) { paddingValues ->
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+                .padding(padding)
+                .padding(16.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Erros: $erros/3",
-                    color = if (erros > 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "Dicas: $dicasRestantes",
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            TabuleiroSudoku(
-                nivel = nivelObj,
-                tabuleiro = tabuleiro,
-                fixas = fixas,
-                conflitos = conflitos,
-                selecionada = selecionada,
-                onCasaClick = { r, c ->
-                    if (!jogoAcabou) {
-                        selecionada = r to c
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            TecladoNumerico(
-                nivel = nivelObj,
-                dicasRestantes = dicasRestantes,
-                habilitado = !jogoAcabou,
-                onNumeroClick = { num ->
-                    val pos = selecionada
-                    if (pos != null && pos !in fixas && !jogoAcabou) {
-                        val (r, c) = pos
-                        val novo = tabuleiro.map { it.toMutableList() }
-                        novo[r][c] = num
-                        tabuleiro = novo
-
-                        var novosErros = erros
-                        if (ValidadorSudoku.temConflito(novo, r, c, nivelObj)) {
-                            novosErros++
-                            erros = novosErros
-                        }
-                        checarFimDeJogo(novo, novosErros)
-                    }
-                },
-                onApagar = {
-                    val pos = selecionada
-                    if (pos != null && pos !in fixas && !jogoAcabou) {
-                        val (r, c) = pos
-                        val novo = tabuleiro.map { it.toMutableList() }
-                        novo[r][c] = 0
-                        tabuleiro = novo
-                    }
-                },
-                onDica = {
-                    val pos = selecionada
-                    if (pos != null && pos !in fixas && dicasRestantes > 0 && !jogoAcabou) {
-                        val (r, c) = pos
-                        val correto = gabarito[r][c]
-                        val novo = tabuleiro.map { it.toMutableList() }
-                        novo[r][c] = correto
-                        tabuleiro = novo
-                        dicasRestantes--
-                        checarFimDeJogo(novo, erros)
+            if (uiState.erro != null) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = uiState.erro,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.weight(1f)
+                    )
+                    TextButton(onClick = onErroVisto) {
+                        Text("OK")
                     }
                 }
-            )
+            }
+
+            if (uiState.acabou) {
+                ResultadoJogo(
+                    uiState = uiState,
+                    onNomeChange = onNomeChange,
+                    onPublicar = onPublicar,
+                    onJogarDeNovo = onJogarDeNovo,
+                    onVoltar = onSair
+                )
+            } else {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Erros: ${uiState.erros}/${JogoViewModel.MAXIMO_DE_ERROS}",
+                        color = if (uiState.erros > 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
+                    )
+                    Text("Faltam: ${uiState.casasRestantes}")
+                    Text("Dicas: ${uiState.dicasRestantes}")
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TabuleiroSudoku(
+                    tabuleiro = uiState.tabuleiro,
+                    fixas = uiState.fixas,
+                    conflitos = uiState.conflitos,
+                    selecionada = uiState.selecionada,
+                    nivel = uiState.nivel,
+                    onCasaClick = onCasaClick
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TecladoNumerico(
+                    nivel = uiState.nivel,
+                    dicasRestantes = uiState.dicasRestantes,
+                    habilitado = !uiState.acabou,
+                    onNumeroClick = onNumeroClick,
+                    onApagar = onApagar,
+                    onDica = onDica
+                )
+            }
         }
     }
 
-    if (jogoAcabou) {
-        val pontos = Pontuacao.calcular(nivelObj, tempoSegundos, erros, nivelObj.dicas - dicasRestantes)
+    if (uiState.confirmandoSaida) {
         AlertDialog(
-            onDismissRequest = {},
-            title = {
-                Text(if (venceu) "Vitória! 🎉" else "Derrota! ❌")
-            },
-            text = {
-                Column {
-                    Text(if (venceu) "Você completou o Sudoku!" else "Você cometeu 3 erros.")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text("Pontuação: $pontos pontos")
-                    Text("Tempo: ${tempoSegundos / 60}m ${tempoSegundos % 60}s")
-                    Text("Erros: $erros | Dicas usadas: ${nivelObj.dicas - dicasRestantes}")
+            onDismissRequest = onCancelarSaida,
+            title = { Text("Sair da partida") },
+            text = { Text("A partida em andamento será perdida e não vai para o histórico. Deseja sair?") },
+            confirmButton = {
+                TextButton(onClick = onSair) {
+                    Text("Sair")
                 }
             },
-            confirmButton = {
-                Button(onClick = onVoltar) {
-                    Text("Voltar ao Menu")
+            dismissButton = {
+                TextButton(onClick = onCancelarSaida) {
+                    Text("Continuar jogando")
                 }
             }
+        )
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ConteudoJogoPreview() {
+    val sudoku = GeradorSudoku.gerar(Nivel.DIFICIL, Random(7))
+    MaterialTheme {
+        ConteudoJogo(
+            uiState = JogoUiState(
+                nivel = Nivel.DIFICIL,
+                tabuleiro = sudoku.tabuleiro,
+                selecionada = Pair(0, 0),
+                erros = 1,
+                dicasRestantes = 1,
+                segundos = 222
+            ),
+            onVoltarClick = {},
+            onCasaClick = { _, _ -> },
+            onNumeroClick = {},
+            onApagar = {},
+            onDica = {},
+            onNomeChange = {},
+            onPublicar = {},
+            onJogarDeNovo = {},
+            onSair = {},
+            onCancelarSaida = {},
+            onErroVisto = {}
         )
     }
 }
