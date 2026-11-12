@@ -5,12 +5,14 @@ import androidx.room3.Database
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
 
-@Database(entities = [Partida::class, Conquista::class], version = 1, exportSchema = false)
+@Database(entities = [Partida::class, Conquista::class, DesafioEntity::class], version = 4, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun partidaDAO(): PartidaDAO
 
     abstract fun conquistaDAO(): ConquistaDAO
+
+    abstract fun desafioDAO(): DesafioDAO
 
     companion object {
 
@@ -29,7 +31,7 @@ abstract class AppDatabase : RoomDatabase() {
                         context.applicationContext,
                         AppDatabase::class.java,
                         "sudoku_database"
-                    ).build()
+                    ).fallbackToDestructiveMigration().build()
                     INSTANCE = instance
                     return instance
                 }
