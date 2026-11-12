@@ -36,6 +36,7 @@ import com.example.sudoku.ui.ranking.AbaRanking
 fun TelaJogador(
     onVoltar: () -> Unit,
     onAbrirJogo: (String, Long) -> Unit,
+    onAbrirDesafio: (String) -> Unit,
     conquistasViewModel: ConquistasViewModel = viewModel(
         factory = ConquistasViewModelFactory(
             ConquistaRepository(
@@ -80,7 +81,7 @@ fun TelaJogador(
             modifier = Modifier.padding(padding)
         ) {
             composable(RotasJogador.ABA_JOGAR) { AbaJogar(onAbrirJogo = onAbrirJogo) }
-            composable(RotasJogador.ABA_DESAFIOS) { AbaDesafios(onAbrirJogo = onAbrirJogo) }
+            composable(RotasJogador.ABA_DESAFIOS) { AbaDesafios(onAbrirDesafio = onAbrirDesafio) }
             composable(RotasJogador.ABA_HISTORICO) { AbaHistorico() }
             composable(RotasJogador.ABA_RANKING) { AbaRanking() }
             composable(RotasJogador.ABA_CONQUISTAS) { AbaConquistas() }
@@ -92,6 +93,6 @@ fun TelaJogador(
 @Composable
 fun TelaJogadorPreview() {
     MaterialTheme {
-        TelaJogador(onVoltar = {}, onAbrirJogo = { _, _ -> })
+        TelaJogador(onVoltar = {}, onAbrirJogo = { _, _ -> }, onAbrirDesafio = {})
     }
 }
