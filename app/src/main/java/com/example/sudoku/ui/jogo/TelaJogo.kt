@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sudoku.data.local.AppDatabase
+import com.example.sudoku.data.remote.RankingFirestore
 import com.example.sudoku.data.repository.ConquistaRepository
 import com.example.sudoku.data.repository.PartidaRepository
 import com.example.sudoku.data.repository.RankingRepository
@@ -54,7 +55,9 @@ fun TelaJogo(
                 AppDatabase.getDatabase(LocalContext.current).conquistaDAO(),
                 AppDatabase.getDatabase(LocalContext.current).partidaDAO()
             ),
-            rankingRepository = RankingRepository()
+            rankingRepository = RankingRepository(
+                RankingFirestore(AppDatabase.getDatabase(LocalContext.current).rankingDAO())
+            )
         )
     )
 ) {
