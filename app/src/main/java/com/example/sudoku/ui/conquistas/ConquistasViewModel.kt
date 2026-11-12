@@ -10,7 +10,6 @@ import com.example.sudoku.logic.RegrasConquistas
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -21,22 +20,30 @@ class ConquistasViewModel(
     private val _uiState = MutableStateFlow(ConquistasUiState())
     val uiState: StateFlow<ConquistasUiState> = _uiState.asStateFlow()
 
+    private var partidasSalvas: List<Partida> = emptyList()
+    private var conquistasSalvas: List<Conquista> = emptyList()
     private var todosOsItens: List<ConquistaItem> = emptyList()
 
     init {
         viewModelScope.launch {
-            combine(repository.getAllPartidas(), repository.getAllConquistas()) { partidas, conquistas ->
-                partidas to conquistas
-            }.collect { (resultadoPartidas, resultadoConquistas) ->
-                when {
-                    resultadoPartidas is Resultado.Erro ->
-                        _uiState.update { it.copy(erro = resultadoPartidas.mensagem) }
-                    resultadoConquistas is Resultado.Erro ->
-                        _uiState.update { it.copy(erro = resultadoConquistas.mensagem) }
-                    resultadoPartidas is Resultado.Sucesso && resultadoConquistas is Resultado.Sucesso -> {
-                        todosOsItens = montarItens(resultadoPartidas.dados, resultadoConquistas.dados)
-                        aplicarFiltro()
+            repository.getAllPartidas().collect { resultado ->
+                when (resultado) {
+                    is Resultado.Sucesso -> {
+                        partidasSalvas = resultado.dados
+                        atualizarItens()
                     }
+                    is Resultado.Erro -> _uiState.update { it.copy(erro = resultado.mensagem) }
+                }
+            }
+        }
+        viewModelScope.launch {
+            repository.getAllConquistas().collect { resultado ->
+                when (resultado) {
+                    is Resultado.Sucesso -> {
+                        conquistasSalvas = resultado.dados
+                        atualizarItens()
+                    }
+                    is Resultado.Erro -> _uiState.update { it.copy(erro = resultado.mensagem) }
                 }
             }
         }
@@ -79,36 +86,33 @@ class ConquistasViewModel(
         _uiState.update { it.copy(erro = null) }
     }
 
-    private fun montarItens(partidas: List<Partida>, conquistas: List<Conquista>): List<ConquistaItem> {
-        val salvas = conquistas.associateBy { it.codigo }
-        return RegrasConquistas.todas.map { regra ->
+    private fun atualizarItens() {
+        val salvas = conquistasSalvas.associateBy { it.codigo }
+        todosOsItens = RegrasConquistas.todas.map { regra ->
             ConquistaItem(
                 regra = regra,
-                progresso = regra.progressoAtual(partidas),
+                progresso = regra.progressoAtual(partidasSalvas),
                 desbloqueadaEm = salvas[regra.codigo]?.desbloqueadaEm
             )
         }
+        aplicarFiltro()
     }
 
     private fun aplicarFiltro() {
         val filtro = _uiState.value.filtro
-        val lista = todosOsItens
-            .filter {
-                when (filtro) {
-                    FiltroConquista.TODAS -> true
-                    FiltroConquista.DESBLOQUEADAS -> it.desbloqueada
-                    FiltroConquista.BLOQUEADAS -> !it.desbloqueada
-                }
-            }
-            .sortedWith(
-                compareByDescending<ConquistaItem> { it.desbloqueada }
-                    .thenByDescending { it.percentual }
-            )
+        val desbloqueadas = todosOsItens.filter { it.desbloqueada }
+        val bloqueadas = todosOsItens
+            .filter { !it.desbloqueada }
+            .sortedByDescending { it.percentual }
+
+        val lista = when (filtro) {
+            FiltroConquista.TODAS -> desbloqueadas + bloqueadas
+            FiltroConquista.DESBLOQUEADAS -> desbloqueadas
+            FiltroConquista.BLOQUEADAS -> bloqueadas
+        }
+
         _uiState.update {
-            it.copy(
-                listaDeConquistas = lista,
-                totalDesbloqueadas = todosOsItens.count { item -> item.desbloqueada }
-            )
+            it.copy(listaDeConquistas = lista, totalDesbloqueadas = desbloqueadas.size)
         }
     }
 }
