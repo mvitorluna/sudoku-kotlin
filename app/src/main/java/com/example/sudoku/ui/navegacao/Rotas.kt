@@ -5,8 +5,10 @@ object Rotas {
     const val JOGADOR = "jogador"
     const val ADMIN = "admin"
     const val JOGO = "jogo/{nivel}/{semente}"
+    const val DESAFIO_JOGO = "desafio_jogo/{desafioId}/{semente}"
 
     fun jogo(nivel: String, semente: Long) = "jogo/$nivel/$semente"
+    fun desafioJogo(desafioId: String, semente: Long) = "desafio_jogo/$desafioId/$semente"
 }
 
 object RotasJogador {
