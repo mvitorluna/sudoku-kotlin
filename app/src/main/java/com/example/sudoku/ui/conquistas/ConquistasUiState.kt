@@ -2,6 +2,9 @@ package com.example.sudoku.ui.conquistas
 
 import com.example.sudoku.logic.RegraConquista
 import com.example.sudoku.logic.RegrasConquistas
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 enum class FiltroConquista(val titulo: String) {
     TODAS("Todas"),
@@ -22,6 +25,12 @@ data class ConquistaItem(
 
     val textoProgresso: String
         get() = "$progresso/${regra.meta}"
+
+    val textoData: String
+        get() {
+            if (desbloqueadaEm == null) return ""
+            return SimpleDateFormat("dd/MM/yyyy", Locale.forLanguageTag("pt-BR")).format(Date(desbloqueadaEm))
+        }
 }
 
 data class ConquistasUiState(

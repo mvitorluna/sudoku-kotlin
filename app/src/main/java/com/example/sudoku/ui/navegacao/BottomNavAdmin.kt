@@ -23,14 +23,14 @@ fun BottomNavAdmin(navInterno: NavHostController) {
     NavigationBar {
         NavigationBarItem(
             selected = rotaAtual == RotasAdmin.ABA_ADMIN_DESAFIOS,
-            onClick = { navInterno.irParaAba(RotasAdmin.ABA_ADMIN_DESAFIOS) },
+            onClick = { navegarParaAba(navInterno, RotasAdmin.ABA_ADMIN_DESAFIOS) },
             icon = { Icon(Icons.Default.Flag, contentDescription = "Desafios") },
             label = { Text("Desafios") }
         )
 
         NavigationBarItem(
             selected = rotaAtual == RotasAdmin.ABA_ADMIN_RANKING,
-            onClick = { navInterno.irParaAba(RotasAdmin.ABA_ADMIN_RANKING) },
+            onClick = { navegarParaAba(navInterno, RotasAdmin.ABA_ADMIN_RANKING) },
             icon = { Icon(Icons.Default.Leaderboard, contentDescription = "Ranking") },
             label = { Text("Ranking") }
         )

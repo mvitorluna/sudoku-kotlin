@@ -41,9 +41,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sudoku.data.local.AppDatabase
 import com.example.sudoku.data.repository.ConquistaRepository
 import com.example.sudoku.logic.RegrasConquistas
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun AbaConquistas(
@@ -219,7 +216,7 @@ fun UmaConquista(item: ConquistaItem) {
 
             if (item.desbloqueadaEm != null) {
                 Text(
-                    text = formatarData(item.desbloqueadaEm),
+                    text = item.textoData,
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -234,9 +231,6 @@ fun UmaConquista(item: ConquistaItem) {
         }
     }
 }
-
-private fun formatarData(data: Long): String =
-    SimpleDateFormat("dd/MM/yyyy", Locale.forLanguageTag("pt-BR")).format(Date(data))
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
