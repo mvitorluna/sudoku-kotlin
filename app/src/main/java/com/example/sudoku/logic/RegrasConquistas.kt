@@ -39,7 +39,7 @@ object RegrasConquistas {
             partidas.size
         },
         RegraConquista("EM_CHAMAS", "Em chamas", "Vença 3 partidas seguidas", 3) { partidas ->
-            partidas.sortedByDescending { it.data }.takeWhile { it.venceu }.size
+            contarVitoriasSeguidas(partidas)
         },
         RegraConquista("DESAFIANTE", "Desafiante", "Vença um desafio do admin", 1) { partidas ->
             partidas.count { it.venceu && it.semente != 0L }
@@ -48,6 +48,15 @@ object RegrasConquistas {
             partidas.sumOf { it.pontos }
         }
     )
+
+    private fun contarVitoriasSeguidas(partidas: List<Partida>): Int {
+        var seguidas = 0
+        for (partida in partidas.sortedByDescending { it.data }) {
+            if (!partida.venceu) break
+            seguidas++
+        }
+        return seguidas
+    }
 
     fun buscarPorCodigo(codigo: String): RegraConquista? =
         todas.firstOrNull { it.codigo == codigo }
