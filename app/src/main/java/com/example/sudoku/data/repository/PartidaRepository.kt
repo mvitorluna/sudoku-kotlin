@@ -36,4 +36,12 @@ class PartidaRepository(private val partidaDao: PartidaDAO) {
         } catch (e: Exception) {
             Resultado.Erro("Não foi possível excluir a partida")
         }
+
+    suspend fun deletarTodos(): Resultado<Unit> =
+        try {
+            partidaDao.deletarTodos()
+            Resultado.Sucesso(Unit)
+        } catch (e: Exception) {
+            Resultado.Erro("Não foi possível limpar o histórico")
+        }
 }
