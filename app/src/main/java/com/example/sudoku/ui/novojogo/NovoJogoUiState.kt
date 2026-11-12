@@ -11,6 +11,17 @@ data class ResumoNivel(
 ) {
     val jaJogou: Boolean
         get() = partidasJogadas > 0
+
+    val textoRecorde: String
+        get() = if (recordePontos == null) "-" else "$recordePontos pts"
+
+    val textoMelhorTempo: String
+        get() {
+            if (melhorTempo == null) return "-"
+            val minutos = (melhorTempo / 60).toString().padStart(2, '0')
+            val segundos = (melhorTempo % 60).toString().padStart(2, '0')
+            return "$minutos:$segundos"
+        }
 }
 
 data class NovoJogoUiState(
@@ -19,5 +30,5 @@ data class NovoJogoUiState(
     val erro: String? = null
 ) {
     val textoBotao: String
-        get() = "Jogar ${nivelSelecionado.titulo} ${nivelSelecionado.tamanho}x${nivelSelecionado.tamanho}"
+        get() = "Jogar ${nivelSelecionado.nomeComTamanho}"
 }

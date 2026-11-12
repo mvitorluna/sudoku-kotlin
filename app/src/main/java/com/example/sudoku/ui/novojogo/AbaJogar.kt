@@ -141,7 +141,7 @@ fun UmNivel(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "${resumo.nivel.titulo} ${resumo.nivel.tamanho}x${resumo.nivel.tamanho}",
+                text = resumo.nivel.nomeComTamanho,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -151,14 +151,8 @@ fun UmNivel(
                 style = MaterialTheme.typography.bodyMedium
             )
             if (resumo.jaJogou) {
-                val recorde = resumo.recordePontos?.toString() ?: "-"
-                val tempo = resumo.melhorTempo?.let {
-                    val min = it / 60
-                    val seg = it % 60
-                    java.lang.String.format(java.util.Locale.getDefault(), "%02d:%02d", min, seg)
-                } ?: "-"
                 Text(
-                    text = "Recorde: $recorde pts | Melhor tempo: $tempo",
+                    text = "Recorde: ${resumo.textoRecorde} | Melhor tempo: ${resumo.textoMelhorTempo}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

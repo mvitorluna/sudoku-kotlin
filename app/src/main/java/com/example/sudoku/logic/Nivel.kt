@@ -13,8 +13,15 @@ enum class Nivel(
     MEDIO("Médio", 6, 2, 3, 18, 2, 2000),
     DIFICIL("Difícil", 9, 3, 3, 45, 1, 3000);
 
+    val nomeComTamanho: String
+        get() = "$titulo ${tamanho}x$tamanho"
+
     companion object {
         fun deTexto(texto: String): Nivel =
-            entries.firstOrNull { it.name == texto } ?: FACIL
+            when (texto) {
+                "MEDIO" -> MEDIO
+                "DIFICIL" -> DIFICIL
+                else -> FACIL
+            }
     }
 }

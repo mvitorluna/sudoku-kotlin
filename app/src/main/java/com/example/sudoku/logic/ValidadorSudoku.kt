@@ -34,7 +34,7 @@ object ValidadorSudoku {
         val n = nivel.tamanho
         for (r in 0 until n) {
             for (c in 0 until n) {
-                if (tabuleiro[r][c] != 0 && temConflito(tabuleiro, r, c, nivel)) {
+                if (temConflito(tabuleiro, r, c, nivel)) {
                     resultado.add(r to c)
                 }
             }

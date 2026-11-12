@@ -2,6 +2,7 @@ package com.example.sudoku.ui.novojogo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.sudoku.data.local.Partida
 import com.example.sudoku.data.repository.PartidaRepository
 import com.example.sudoku.data.repository.Resultado
 import com.example.sudoku.logic.Nivel
@@ -23,20 +24,7 @@ class NovoJogoViewModel(
             repository.getAllPartidas().collect { resultado ->
                 when (resultado) {
                     is Resultado.Erro -> _uiState.update { it.copy(erro = resultado.mensagem) }
-                    is Resultado.Sucesso -> {
-                        val resumos = Nivel.entries.map { nivel ->
-                            val partidasDoNivel = resultado.dados.filter { it.nivel == nivel.name }
-                            val vitoriasDoNivel = partidasDoNivel.filter { it.venceu }
-                            ResumoNivel(
-                                nivel = nivel,
-                                partidasJogadas = partidasDoNivel.size,
-                                vitorias = partidasDoNivel.count { it.venceu },
-                                recordePontos = vitoriasDoNivel.maxOfOrNull { it.pontos },
-                                melhorTempo = vitoriasDoNivel.minOfOrNull { it.tempoSegundos }
-                            )
-                        }
-                        _uiState.update { it.copy(resumos = resumos) }
-                    }
+                    is Resultado.Sucesso -> _uiState.update { it.copy(resumos = montarResumos(resultado.dados)) }
                 }
             }
         }
@@ -49,4 +37,17 @@ class NovoJogoViewModel(
     fun onErroVisto() {
         _uiState.update { it.copy(erro = null) }
     }
+
+    private fun montarResumos(partidas: List<Partida>): List<ResumoNivel> =
+        Nivel.entries.map { nivel ->
+            val partidasDoNivel = partidas.filter { it.nivel == nivel.name }
+            val vitoriasDoNivel = partidasDoNivel.filter { it.venceu }
+            ResumoNivel(
+                nivel = nivel,
+                partidasJogadas = partidasDoNivel.size,
+                vitorias = vitoriasDoNivel.size,
+                recordePontos = vitoriasDoNivel.maxOfOrNull { it.pontos },
+                melhorTempo = vitoriasDoNivel.minOfOrNull { it.tempoSegundos }
+            )
+        }
 }

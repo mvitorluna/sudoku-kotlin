@@ -28,48 +28,24 @@ fun TecladoNumerico(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        val n = nivel.tamanho
-        if (n <= 6) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                for (i in 1..n) {
-                    Button(
-                        onClick = { onNumeroClick(i) },
-                        enabled = habilitado,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(text = i.toString())
-                    }
-                }
-            }
+        val linhasDeNumeros = if (nivel.tamanho == 9) {
+            listOf(1..5, 6..9)
         } else {
+            listOf(1..nivel.tamanho)
+        }
+
+        for (numeros in linhasDeNumeros) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                for (i in 1..5) {
+                for (numero in numeros) {
                     Button(
-                        onClick = { onNumeroClick(i) },
+                        onClick = { onNumeroClick(numero) },
                         enabled = habilitado,
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text(text = i.toString())
-                    }
-                }
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                for (i in 6..9) {
-                    Button(
-                        onClick = { onNumeroClick(i) },
-                        enabled = habilitado,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(text = i.toString())
+                        Text(text = numero.toString())
                     }
                 }
             }
