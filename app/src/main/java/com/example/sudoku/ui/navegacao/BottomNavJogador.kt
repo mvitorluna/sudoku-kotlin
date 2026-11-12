@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -32,9 +31,9 @@ private val abasJogador = listOf(
     AbaJogador(RotasJogador.ABA_CONQUISTAS, "Conquistas", Icons.Default.EmojiEvents)
 )
 
-fun NavHostController.irParaAba(rota: String) {
-    navigate(rota) {
-        popUpTo(graph.findStartDestination().id) { saveState = true }
+fun navegarParaAba(navController: NavHostController, rota: String) {
+    navController.navigate(rota) {
+        popUpTo(navController.graph.startDestinationId) { saveState = true }
         launchSingleTop = true
         restoreState = true
     }
@@ -50,7 +49,7 @@ fun BottomNavJogador(navInterno: NavHostController, temConquistaNova: Boolean = 
             val mostrarAviso = aba.rota == RotasJogador.ABA_CONQUISTAS && temConquistaNova
             NavigationBarItem(
                 selected = rotaAtual == aba.rota,
-                onClick = { navInterno.irParaAba(aba.rota) },
+                onClick = { navegarParaAba(navInterno, aba.rota) },
                 icon = {
                     BadgedBox(badge = { if (mostrarAviso) Badge() }) {
                         Icon(aba.icone, contentDescription = aba.titulo)
