@@ -1,5 +1,9 @@
 package com.example.sudoku.ui.navegacao
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,7 +17,12 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = Rotas.INICIO
+        startDestination = Rotas.INICIO,
+        // Tela nova entra pela direita; ao voltar, ela sai pela direita
+        enterTransition = { slideInHorizontally { it } + fadeIn() },
+        exitTransition = { slideOutHorizontally { -it / 3 } + fadeOut() },
+        popEnterTransition = { slideInHorizontally { -it / 3 } + fadeIn() },
+        popExitTransition = { slideOutHorizontally { it } + fadeOut() }
     ) {
         composable(Rotas.INICIO) {
             TelaInicial(

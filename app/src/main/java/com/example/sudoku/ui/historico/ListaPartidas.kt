@@ -1,5 +1,6 @@
 package com.example.sudoku.ui.historico
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -178,7 +179,9 @@ fun ConteudoPartidas(
                         expandida = uiState.partidaExpandidaId == partida.id,
                         onClick = { onPartidaClick(partida) },
                         onFavoritar = { onFavoritar(partida) },
-                        onDelete = { onDelete(partida) }
+                        onDelete = { onDelete(partida) },
+                        // Anima a entrada, saída e reordenação do item na lista
+                        modifier = Modifier.animateItem()
                     )
                 }
             }
@@ -210,12 +213,13 @@ fun UmaPartida(
     expandida: Boolean,
     onClick: () -> Unit,
     onFavoritar: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val nivel = Nivel.deTexto(partida.nivel)
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() }
     ) {
@@ -254,12 +258,15 @@ fun UmaPartida(
                 }
             }
 
-            if (expandida) {
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp, horizontal = 0.dp))
-                Text("Tempo: ${formatarTempo(partida.tempoSegundos)}")
-                Text("Erros: ${partida.erros}")
-                Text("Dicas usadas: ${partida.dicasUsadas}")
-                Text(if (partida.semente != 0L) "Desafio (semente ${partida.semente})" else "Jogo aleatório")
+            // Os detalhes abrem e fecham deslizando em vez de aparecer de uma vez
+            AnimatedVisibility(visible = expandida) {
+                Column {
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp, horizontal = 0.dp))
+                    Text("Tempo: ${formatarTempo(partida.tempoSegundos)}")
+                    Text("Erros: ${partida.erros}")
+                    Text("Dicas usadas: ${partida.dicasUsadas}")
+                    Text(if (partida.semente != 0L) "Desafio (semente ${partida.semente})" else "Jogo aleatório")
+                }
             }
         }
     }

@@ -22,9 +22,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.delay
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -149,7 +154,14 @@ fun ConteudoJogo(
                 }
             }
 
-            if (uiState.acabou) {
+            // Na vitória espera a onda do tabuleiro terminar antes de mostrar o resultado
+            var mostrarResultado by remember { mutableStateOf(uiState.acabou) }
+            LaunchedEffect(uiState.acabou) {
+                if (uiState.status == StatusJogo.VENCEU) delay(1000)
+                mostrarResultado = uiState.acabou
+            }
+
+            if (mostrarResultado) {
                 ResultadoJogo(
                     uiState = uiState,
                     onNomeChange = onNomeChange,
