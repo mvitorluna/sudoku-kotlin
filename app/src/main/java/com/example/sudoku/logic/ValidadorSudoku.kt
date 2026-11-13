@@ -42,6 +42,29 @@ object ValidadorSudoku {
         return resultado
     }
 
+    // Casas que fazem parte de uma linha, coluna ou bloco totalmente preenchido e sem conflito.
+    // A tela usa isso para fazer a animação de "completou uma linha".
+    fun casasEmGruposCompletos(tabuleiro: List<List<Int>>, nivel: Nivel): Set<Pair<Int, Int>> {
+        val n = nivel.tamanho
+        val bl = nivel.linhasBloco
+        val bc = nivel.colunasBloco
+        val blocosPorFaixa = n / bc
+        val comConflito = conflitos(tabuleiro, nivel)
+
+        val linhas = (0 until n).map { l -> (0 until n).map { c -> l to c } }
+        val colunas = (0 until n).map { c -> (0 until n).map { l -> l to c } }
+        val blocos = (0 until n).map { b ->
+            val l0 = (b / blocosPorFaixa) * bl
+            val c0 = (b % blocosPorFaixa) * bc
+            (0 until bl).flatMap { dl -> (0 until bc).map { dc -> (l0 + dl) to (c0 + dc) } }
+        }
+
+        return (linhas + colunas + blocos)
+            .filter { grupo -> grupo.all { (l, c) -> tabuleiro[l][c] != 0 && (l to c) !in comConflito } }
+            .flatten()
+            .toSet()
+    }
+
     fun estaCompleto(tabuleiro: List<List<Int>>): Boolean =
         tabuleiro.all { linha -> linha.none { it == 0 } }
 
