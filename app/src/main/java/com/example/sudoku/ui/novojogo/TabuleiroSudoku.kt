@@ -1,5 +1,7 @@
 package com.example.sudoku.ui.novojogo
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,8 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -21,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sudoku.logic.GeradorSudoku
 import com.example.sudoku.logic.Nivel
+import com.example.sudoku.logic.ValidadorSudoku
+import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 @Composable
@@ -43,6 +54,16 @@ fun TabuleiroSudoku(
         Nivel.DIFICIL -> 16.sp
     }
 
+    // Número da casa selecionada (0 = casa vazia, não destaca nada)
+    val valorSelecionado = selecionada?.let { (l, c) -> tabuleiro[l][c] } ?: 0
+
+    // Casas em linha/coluna/bloco completo. Quando uma casa entra aqui, ela pisca.
+    val completas = remember(tabuleiro) { ValidadorSudoku.casasEmGruposCompletos(tabuleiro, nivel) }
+
+    fun mesmoBloco(a: Pair<Int, Int>, b: Pair<Int, Int>) =
+        a.first / nivel.linhasBloco == b.first / nivel.linhasBloco &&
+            a.second / nivel.colunasBloco == b.second / nivel.colunasBloco
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -63,11 +84,22 @@ fun TabuleiroSudoku(
                                     val coluna = bloco * nivel.colunasBloco + colunaNoBloco
                                     val casa = linha to coluna
 
+                                    val valor = tabuleiro[linha][coluna]
+
                                     CasaSudoku(
-                                        valor = tabuleiro[linha][coluna],
+                                        valor = valor,
                                         fixa = casa in fixas,
                                         comConflito = casa in conflitos,
                                         selecionada = casa == selecionada,
+                                        mesmoNumero = valorSelecionado != 0 && valor == valorSelecionado,
+                                        relacionada = selecionada != null && (
+                                            linha == selecionada.first ||
+                                                coluna == selecionada.second ||
+                                                mesmoBloco(casa, selecionada)
+                                            ),
+                                        completa = casa in completas,
+                                        // Atraso pela distância do canto: a piscada anda em onda
+                                        atrasoMs = (linha + coluna) * 35,
                                         tamanhoFonte = tamanhoFonte,
                                         onClick = { onCasaClick(linha, coluna) },
                                         modifier = Modifier.weight(1f)
@@ -88,15 +120,37 @@ private fun CasaSudoku(
     fixa: Boolean,
     comConflito: Boolean,
     selecionada: Boolean,
+    mesmoNumero: Boolean,
+    relacionada: Boolean,
+    completa: Boolean,
+    atrasoMs: Int,
     tamanhoFonte: TextUnit,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val corFundo = if (selecionada) {
-        MaterialTheme.colorScheme.primaryContainer
-    } else {
-        MaterialTheme.colorScheme.surface
+    val corFundo = when {
+        selecionada -> MaterialTheme.colorScheme.primary.copy(alpha = 0.40f)
+        comConflito -> MaterialTheme.colorScheme.errorContainer
+        mesmoNumero -> MaterialTheme.colorScheme.primary.copy(alpha = 0.22f)
+        relacionada -> MaterialTheme.colorScheme.surfaceVariant
+        else -> MaterialTheme.colorScheme.surface
     }
+
+    // Piscada quando a casa passa a fazer parte de um grupo completo.
+    // Começa com o valor atual para não piscar ao abrir o jogo ou girar a tela.
+    val brilho = remember { Animatable(0f) }
+    var completaAntes by remember { mutableStateOf(completa) }
+    LaunchedEffect(completa) {
+        val acabouDeCompletar = completa && !completaAntes
+        completaAntes = completa
+        if (acabouDeCompletar) {
+            delay(atrasoMs.toLong())
+            brilho.animateTo(1f, tween(150))
+            brilho.animateTo(0f, tween(450))
+        }
+    }
+    // Verde = acerto (o tertiary do tema é avermelhado e parecia erro)
+    val corBrilho = Color(0xFF4CAF50)
 
     val corTexto = when {
         comConflito -> MaterialTheme.colorScheme.error
@@ -108,7 +162,12 @@ private fun CasaSudoku(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .aspectRatio(1f)
+            .graphicsLayer {
+                scaleX = 1f + 0.12f * brilho.value
+                scaleY = 1f + 0.12f * brilho.value
+            }
             .background(corFundo)
+            .background(corBrilho.copy(alpha = 0.6f * brilho.value))
             .border(0.5.dp, MaterialTheme.colorScheme.outline)
             .clickable { onClick() }
     ) {
@@ -116,7 +175,7 @@ private fun CasaSudoku(
             Text(
                 text = valor.toString(),
                 fontSize = tamanhoFonte,
-                fontWeight = if (fixa) FontWeight.Bold else FontWeight.Normal,
+                fontWeight = if (fixa || mesmoNumero) FontWeight.Bold else FontWeight.Normal,
                 color = corTexto
             )
         }

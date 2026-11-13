@@ -78,10 +78,16 @@ class JogoViewModelTest {
     }
 
     @Test
-    fun naoDeixaSelecionarCasaFixa() {
+    fun casaFixaPodeSerSelecionadaMasNaoMuda() {
         val fixa = viewModel.uiState.value.fixas.first()
+        val valorOriginal = viewModel.uiState.value.tabuleiro[fixa.first][fixa.second]
         viewModel.onCasaClick(fixa.first, fixa.second)
-        assertNull(viewModel.uiState.value.selecionada)
+        assertEquals(fixa, viewModel.uiState.value.selecionada)
+
+        viewModel.onNumeroClick(if (valorOriginal == 1) 2 else 1)
+        viewModel.onApagar()
+        assertEquals(valorOriginal, viewModel.uiState.value.tabuleiro[fixa.first][fixa.second])
+        assertEquals(0, viewModel.uiState.value.erros)
     }
 
     @Test

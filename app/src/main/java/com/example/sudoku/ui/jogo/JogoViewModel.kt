@@ -42,14 +42,16 @@ class JogoViewModel(
 
     fun onCasaClick(linha: Int, coluna: Int) {
         val estado = _uiState.value
-        if (estado.acabou || Pair(linha, coluna) in estado.fixas) return
+        // Casa fixa também pode ser selecionada: serve para destacar o mesmo número no tabuleiro.
+        // Quem impede de escrever nela é o onNumeroClick/onApagar.
+        if (estado.acabou) return
         _uiState.update { it.copy(selecionada = Pair(linha, coluna)) }
     }
 
     fun onNumeroClick(numero: Int) {
         val estado = _uiState.value
         val (linha, coluna) = estado.selecionada ?: return
-        if (estado.acabou) return
+        if (estado.acabou || Pair(linha, coluna) in estado.fixas) return
 
         // Cria um tabuleiro novo: o StateFlow só avisa a tela quando recebe um objeto diferente
         val novoTabuleiro = estado.tabuleiro.map { it.toMutableList() }
