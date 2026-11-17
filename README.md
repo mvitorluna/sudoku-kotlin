@@ -35,11 +35,6 @@ São 3 níveis, e cada nível muda o tamanho do tabuleiro. Todo jogo é gerado n
 
 > Não tem login. A tela inicial tem só os botões **Jogar** e **Admin**.
 
-## Vídeo
-
-<!-- Colocar o link do vídeo de demonstração -->
-[Assistir à demonstração](LINK_DO_VIDEO)
-
 ## Arquitetura
 
 O projeto segue o padrão MVVM das aulas. Cada funcionalidade tem um pacote em `ui/` com **UiState + ViewModel + Factory + Tela**, e cada fonte de dados tem um **Repository** com try/catch que devolve `Resultado.Sucesso` ou `Resultado.Erro`.
