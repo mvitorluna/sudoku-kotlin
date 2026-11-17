@@ -1,57 +1,52 @@
 package com.example.sudoku.data.remote
 
-import com.example.sudoku.data.local.RankingDao
-import com.example.sudoku.data.local.RankingEntity
+// ╔══════════════════════════════════════════════╗
+// ║  RankingFirestore.kt                         ║
+// ║  Acesso ao Firebase (coleção ranking)        ║
+// ║  Faz para o Firebase o papel do DAO          ║
+// ╚══════════════════════════════════════════════╝
+
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.snapshots
+import com.google.firebase.firestore.toObjects
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.util.UUID
+import kotlinx.coroutines.tasks.await
 
-class RankingFirestore(private val dao: RankingDao) {
+// Faz para o Firebase o papel que o DAO faz para o Room.
+// "open" só para os testes poderem trocar por um falso, sem internet.
+open class RankingFirestore {
 
-    suspend fun inicializarRankingPadrao() {
+    // lazy: o Firebase só é acessado quando alguém usa a coleção (o falso dos testes nunca usa)
+    private val colecao by lazy { Firebase.firestore.collection("ranking") }
+
+    open suspend fun inicializarRankingPadrao() {
         try {
-            if (dao.contar() == 0) {
-                val exemplos = listOf(
-                    RankingEntity(UUID.randomUUID().toString(), "Carlos Silva", "FACIL", 1250, 45, System.currentTimeMillis() - 86400000),
-                    RankingEntity(UUID.randomUUID().toString(), "Ana Souza", "FACIL", 1100, 60, System.currentTimeMillis() - 43200000),
-                    RankingEntity(UUID.randomUUID().toString(), "Gabriel Admin", "MEDIO", 2400, 120, System.currentTimeMillis() - 72000000),
-                    RankingEntity(UUID.randomUUID().toString(), "Mariana", "MEDIO", 2150, 150, System.currentTimeMillis() - 36000000),
-                    RankingEntity(UUID.randomUUID().toString(), "Eduardo", "DIFICIL", 3800, 240, System.currentTimeMillis() - 100000000),
-                    RankingEntity(UUID.randomUUID().toString(), "Arthur", "DIFICIL", 3500, 310, System.currentTimeMillis() - 15000000)
-                )
-                exemplos.forEach { dao.inserir(it) }
+            if (colecao.limit(1).get().await().isEmpty) {
+                val agora = System.currentTimeMillis()
+                listOf(
+                    RankingRemoto("", "Carlos Silva", "FACIL", 1250, 45, agora - 86400000),
+                    RankingRemoto("", "Ana Souza", "FACIL", 1100, 60, agora - 43200000),
+                    RankingRemoto("", "Gabriel Admin", "MEDIO", 2400, 120, agora - 72000000),
+                    RankingRemoto("", "Mariana", "MEDIO", 2150, 150, agora - 36000000),
+                    RankingRemoto("", "Eduardo", "DIFICIL", 3800, 240, agora - 100000000),
+                    RankingRemoto("", "Arthur", "DIFICIL", 3500, 310, agora - 15000000)
+                ).forEach { colecao.add(it).await() }
             }
-        } catch (_: Exception) {}
-    }
-
-    fun buscarTodos(): Flow<List<RankingRemoto>> {
-        return dao.buscarTodos().map { entities ->
-            entities.map {
-                RankingRemoto(
-                    id = it.id,
-                    nomeJogador = it.nomeJogador,
-                    nivel = it.nivel,
-                    pontos = it.pontos,
-                    tempoSegundos = it.tempoSegundos,
-                    data = it.data
-                )
-            }
+        } catch (_: Exception) {
         }
     }
 
-    suspend fun inserir(ranking: RankingRemoto) {
-        val entity = RankingEntity(
-            id = ranking.id.ifEmpty { UUID.randomUUID().toString() },
-            nomeJogador = ranking.nomeJogador,
-            nivel = ranking.nivel,
-            pontos = ranking.pontos,
-            tempoSegundos = ranking.tempoSegundos,
-            data = ranking.data
-        )
-        dao.inserir(entity)
+    // snapshots(): o Flow emite de novo sempre que o ranking muda no Firebase, igual ao Flow do Room
+    open fun buscarTodos(): Flow<List<RankingRemoto>> =
+        colecao.snapshots().map { it.toObjects<RankingRemoto>() }
+
+    open suspend fun inserir(ranking: RankingRemoto) {
+        colecao.add(ranking).await()
     }
 
-    suspend fun deletar(id: String) {
-        dao.deletar(id)
+    open suspend fun deletar(id: String) {
+        colecao.document(id).delete().await()
     }
 }

@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.jogo
 
+// ╔══════════════════════════════════════════════╗
+// ║  TelaJogo.kt                                 ║
+// ║  TELA do jogo                                ║
+// ║  Recebe nível e semente pela rota            ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -61,7 +67,7 @@ fun TelaJogo(
                 AppDatabase.getDatabase(LocalContext.current).partidaDAO()
             ),
             rankingRepository = RankingRepository(
-                RankingFirestore(AppDatabase.getDatabase(LocalContext.current).rankingDAO())
+                RankingFirestore()
             )
         )
     )
@@ -226,6 +232,7 @@ fun ConteudoJogo(
     }
 }
 
+// ── Preview ──────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ConteudoJogoPreview() {

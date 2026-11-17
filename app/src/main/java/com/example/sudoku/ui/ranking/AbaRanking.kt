@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.ranking
 
+// ╔══════════════════════════════════════════════╗
+// ║  AbaRanking.kt                               ║
+// ║  ABA Ranking (jogador)                       ║
+// ║  Top 20 global com filtro e busca            ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,13 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.sudoku.data.local.AppDatabase
 import com.example.sudoku.data.remote.RankingFirestore
 import com.example.sudoku.data.repository.RankingRepository
 import com.example.sudoku.logic.Nivel
@@ -48,7 +52,7 @@ fun AbaRanking(
     viewModel: RankingViewModel = viewModel(
         factory = RankingViewModelFactory(
             RankingRepository(
-                RankingFirestore(AppDatabase.getDatabase(LocalContext.current).rankingDAO())
+                RankingFirestore()
             )
         )
     )
@@ -239,20 +243,23 @@ fun ItemRankingCard(itemUi: RankingItemUi) {
     }
 }
 
+// ── Preview ──────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun ConteudoRankingPreview() {
-    ConteudoRanking(
-        uiState = RankingUiState(
-            carregando = false,
-            itensRanking = listOf(
-                RankingItemUi(1, com.example.sudoku.data.remote.RankingRemoto("1", "Carlos Silva", "FACIL", 1250, 45)),
-                RankingItemUi(2, com.example.sudoku.data.remote.RankingRemoto("2", "Ana Souza", "MEDIO", 1100, 60))
-            )
-        ),
-        onFiltroNivel = {},
-        onBuscaNome = {},
-        onTentarNovamente = {},
-        onErroVisto = {}
-    )
+    MaterialTheme {
+        ConteudoRanking(
+            uiState = RankingUiState(
+                carregando = false,
+                itensRanking = listOf(
+                    RankingItemUi(1, com.example.sudoku.data.remote.RankingRemoto("1", "Carlos Silva", "FACIL", 1250, 45)),
+                    RankingItemUi(2, com.example.sudoku.data.remote.RankingRemoto("2", "Ana Souza", "MEDIO", 1100, 60))
+                )
+            ),
+            onFiltroNivel = {},
+            onBuscaNome = {},
+            onTentarNovamente = {},
+            onErroVisto = {}
+        )
+    }
 }

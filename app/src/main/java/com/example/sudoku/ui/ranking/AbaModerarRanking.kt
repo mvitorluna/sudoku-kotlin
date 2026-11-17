@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.ranking
 
+// ╔══════════════════════════════════════════════╗
+// ║  AbaModerarRanking.kt                        ║
+// ║  ABA Moderar Ranking (admin)                 ║
+// ║  Painel por nível + excluir registros        ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,13 +35,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.sudoku.data.local.AppDatabase
 import com.example.sudoku.data.remote.RankingFirestore
 import com.example.sudoku.data.remote.RankingRemoto
 import com.example.sudoku.data.repository.RankingRepository
@@ -46,7 +50,7 @@ fun AbaModerarRanking(
     viewModel: AdminRankingViewModel = viewModel(
         factory = AdminRankingViewModelFactory(
             RankingRepository(
-                RankingFirestore(AppDatabase.getDatabase(LocalContext.current).rankingDAO())
+                RankingFirestore()
             )
         )
     )
@@ -271,24 +275,27 @@ fun CardModerarRankingItem(
     }
 }
 
+// ── Preview ──────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun ConteudoModerarRankingPreview() {
-    ConteudoModerarRanking(
-        uiState = AdminRankingUiState(
-            carregando = false,
-            estatisticasPorNivel = listOf(
-                EstatisticaRankingNivel(Nivel.FACIL, 5, 1200.0, 45, "Carlos Silva")
+    MaterialTheme {
+        ConteudoModerarRanking(
+            uiState = AdminRankingUiState(
+                carregando = false,
+                estatisticasPorNivel = listOf(
+                    EstatisticaRankingNivel(Nivel.FACIL, 5, 1200.0, 45, "Carlos Silva")
+                ),
+                listaRanking = listOf(
+                    RankingRemoto("1", "Carlos Silva", "FACIL", 1250, 45)
+                )
             ),
-            listaRanking = listOf(
-                RankingRemoto("1", "Carlos Silva", "FACIL", 1250, 45)
-            )
-        ),
-        onFiltroNivel = {},
-        onBuscaNome = {},
-        onExcluirClick = {},
-        onConfirmarExclusao = {},
-        onCancelarExclusao = {},
-        onErroVisto = {}
-    )
+            onFiltroNivel = {},
+            onBuscaNome = {},
+            onExcluirClick = {},
+            onConfirmarExclusao = {},
+            onCancelarExclusao = {},
+            onErroVisto = {}
+        )
+    }
 }

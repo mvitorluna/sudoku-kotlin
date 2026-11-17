@@ -8,6 +8,7 @@ import com.example.sudoku.data.repository.ConquistaRepository
 import com.example.sudoku.data.repository.PartidaRepository
 import com.example.sudoku.data.repository.RankingRepository
 import com.example.sudoku.logic.GeradorSudoku
+import com.example.sudoku.ui.ranking.RankingFirestoreFalso
 import com.example.sudoku.logic.Nivel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -45,7 +46,7 @@ class JogoViewModelTest {
             semente,
             PartidaRepository(partidaDao),
             ConquistaRepository(ConquistaDAOFalso(), partidaDao),
-            RankingRepository()
+            RankingRepository(RankingFirestoreFalso())
         )
     }
 

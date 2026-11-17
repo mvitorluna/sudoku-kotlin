@@ -1,9 +1,13 @@
 package com.example.sudoku.ui.ranking
 
+import com.example.sudoku.data.remote.RankingFirestore
+import com.example.sudoku.data.remote.RankingRemoto
 import com.example.sudoku.data.repository.RankingRepository
 import com.example.sudoku.logic.Nivel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -13,23 +17,24 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class RankingDaoFalso : com.example.sudoku.data.local.RankingDao {
-    private val itens = mutableListOf(
-        com.example.sudoku.data.local.RankingEntity("1", "Carlos", "FACIL", 1000, 50, 100L),
-        com.example.sudoku.data.local.RankingEntity("2", "Ana", "FACIL", 1200, 40, 200L),
-        com.example.sudoku.data.local.RankingEntity("3", "Gabriel", "MEDIO", 2000, 100, 300L)
+// Substitui o Firebase nos testes: guarda o ranking numa lista, sem internet
+class RankingFirestoreFalso : RankingFirestore() {
+    private val itens = MutableStateFlow(
+        listOf(
+            RankingRemoto("1", "Carlos", "FACIL", 1000, 50, 100L),
+            RankingRemoto("2", "Ana", "FACIL", 1200, 40, 200L),
+            RankingRemoto("3", "Gabriel", "MEDIO", 2000, 100, 300L)
+        )
     )
 
-    override fun buscarTodos() = kotlinx.coroutines.flow.flowOf(itens)
-    override suspend fun buscarTodosAgora() = itens
-    override suspend fun inserir(ranking: com.example.sudoku.data.local.RankingEntity) {
-        itens.removeIf { it.id == ranking.id }
-        itens.add(ranking)
+    override suspend fun inicializarRankingPadrao() {}
+    override fun buscarTodos(): Flow<List<RankingRemoto>> = itens
+    override suspend fun inserir(ranking: RankingRemoto) {
+        itens.value = itens.value + ranking.copy(id = "${itens.value.size + 1}")
     }
     override suspend fun deletar(id: String) {
-        itens.removeIf { it.id == id }
+        itens.value = itens.value.filter { it.id != id }
     }
-    override suspend fun contar() = itens.size
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -40,7 +45,7 @@ class RankingViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        val repo = RankingRepository(com.example.sudoku.data.remote.RankingFirestore(RankingDaoFalso()))
+        val repo = RankingRepository(RankingFirestoreFalso())
         viewModel = RankingViewModel(repo)
     }
 
