@@ -103,7 +103,7 @@ As funcionalidades foram distribuídas por sorteio em 05/11/2026.
 
 ```mermaid
 flowchart TD
-    I[TelaInicial] -->|botão Jogar| J[TelaJogador com Bottom Navigation]
+    I[TelaPrincipal] -->|botão Jogar| J[TelaJogador com Bottom Navigation]
     I -->|botão Admin| A[TelaAdmin com Bottom Navigation]
 
     J --> AJ[Aba Jogar]
@@ -131,19 +131,18 @@ flowchart TD
 
 | Rota | Tela | Argumentos |
 |---|---|---|
-| `inicio` | TelaInicial (2 botões) | |
+| `home` | TelaPrincipal (2 botões) | |
 | `jogador` | TelaJogador (5 abas) | |
 | `jogo/{nivel}/{semente}` | TelaJogo | semente `0` = jogo aleatório |
 | `admin` | TelaAdmin (2 abas) | |
 
-Abas do jogador (`RotasJogador`): `aba_jogar`, `aba_desafios`, `aba_historico`, `aba_ranking`, `aba_conquistas`.
-Abas do admin (`RotasAdmin`): `aba_admin_desafios`, `aba_admin_ranking`.
+Abas (`RotasAbas`, igual à aula 13): do jogador `aba_jogar`, `aba_desafios`, `aba_historico`, `aba_ranking`, `aba_conquistas`; do admin `aba_admin_desafios`, `aba_admin_ranking`.
 
 ### Lista de telas (12 destinos, o mínimo pedido é 6)
 
 | # | Tela | Perfil | Dono | O que tem |
 |---|---|---|---|---|
-| 1 | TelaInicial | todos | P1 | Nome do app e dois botões: Jogar e Admin |
+| 1 | TelaPrincipal | todos | P1 | Nome do app e dois botões: Jogar e Admin |
 | 2 | TelaJogador | jogador | P1 | Scaffold + TopAppBar + BottomNav com 5 abas (igual `TelaComAbas` da aula) |
 | 3 | TelaAdmin | admin | P1 | Scaffold + TopAppBar + BottomNav com 2 abas |
 | 4 | Aba Conquistas | jogador | P1 | Grade de medalhas com progresso, filtro desbloqueadas/bloqueadas |
@@ -251,11 +250,10 @@ com.example.sudoku/
     ├── navegacao/                               P1
     │   ├── Rotas.kt
     │   ├── AppNavigation.kt
-    │   ├── TelaInicial.kt
+    │   ├── TelaPrincipal.kt
     │   ├── TelaJogador.kt
-    │   ├── BottomNavJogador.kt
-    │   ├── TelaAdmin.kt
-    │   └── BottomNavAdmin.kt
+    │   ├── BottomNavBar.kt
+    │   └── TelaAdmin.kt
     ├── conquistas/                              P1
     │   ├── ConquistasUiState.kt
     │   ├── ConquistasViewModel.kt
@@ -528,7 +526,7 @@ fun ListaPartidas(
 
 ### P1 | Conquistas (+ estrutura de navegação) | Marcos
 
-**Telas:** Aba Conquistas, e a estrutura do app (TelaInicial, TelaJogador e TelaAdmin com as Bottom Navs).
+**Telas:** Aba Conquistas, e a estrutura do app (TelaPrincipal, TelaJogador e TelaAdmin com as Bottom Navs).
 
 **Como funciona:** o app tem uma lista fixa de ~10 conquistas. Cada uma tem uma regra que olha a lista de partidas e diz o progresso. Quando o progresso chega na meta, a conquista é desbloqueada e salva no Room com a data.
 
@@ -547,7 +545,7 @@ fun ListaPartidas(
 
 **Faz:**
 - Cria o projeto no Android Studio, o repositório no GitHub, adiciona os 6 como colaboradores, configura o `build.gradle` (seção 13), cria os pacotes vazios e o `Resultado.kt` no dia 1.
-- `ui/navegacao`: `MainActivity`, `Rotas` (`Rotas`, `RotasJogador`, `RotasAdmin`, com `fun jogo(nivel: Nivel, semente: Long)`), `AppNavigation`, `TelaInicial` (dois botões), `TelaJogador` + `BottomNavJogador` (5 abas) e `TelaAdmin` + `BottomNavAdmin` (2 abas), igual à aula 13. A aba Conquistas mostra um aviso (`BadgedBox`) quando tem conquista nova não vista.
+- `ui/navegacao`: `MainActivity`, `Rotas` (`Rotas`, `RotasAbas`, com `fun jogo(nivel: Nivel, semente: Long)`), `AppNavigation`, `TelaPrincipal` (dois botões), `TelaJogador` + `BottomNavBarJogador` (5 abas) e `TelaAdmin` + `BottomNavBarAdmin` (2 abas), as duas barras em `BottomNavBar.kt`, igual à aula 13. A aba Conquistas mostra um aviso (`BadgedBox`) quando tem conquista nova não vista.
 - `logic/RegrasConquistas.kt`: `data class RegraConquista(val codigo: String, val titulo: String, val descricao: String, val meta: Int, val progresso: (List<Partida>) -> Int)`. **A regra é uma lambda guardada dentro do objeto.** Exemplos:
   - Perfeito: `{ partidas -> partidas.count { it.venceu && it.erros == 0 } }`
   - Explorador: `{ partidas -> partidas.filter { it.venceu }.map { it.nivel }.distinct().size }`
@@ -782,7 +780,7 @@ Mais o Firebase (o assistente do Android Studio adiciona): plugin `com.google.gm
 | Bottom Navigation | Jogador (5 abas) e Admin (2 abas) | P1 |
 | Filtros e ordenação com lambdas | Conquistas, Novo Jogo, Histórico, Estatísticas, Desafios, Ranking, Moderação | todos menos P3 |
 | LazyColumn / LazyVerticalGrid | Histórico, Desafios, Gerenciar Desafios, Ranking, Moderação, Conquistas (grid) | vários |
-| Controle de perfil Admin x Jogador | TelaInicial com dois botões leva a áreas diferentes; o jogador não vê nada do admin | P1 |
+| Controle de perfil Admin x Jogador | TelaPrincipal com dois botões leva a áreas diferentes; o jogador não vê nada do admin | P1 |
 
 > Atenção: o slide do professor fala em bifurcação "com base no estado do usuário no ViewModel" e o exemplo dele usa tela de login. Vale confirmar com ele que dois botões no lugar do login estão ok.
 

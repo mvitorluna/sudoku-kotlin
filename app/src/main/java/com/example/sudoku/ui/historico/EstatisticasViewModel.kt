@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.historico
 
+// ╔══════════════════════════════════════════════╗
+// ║  EstatisticasViewModel.kt                    ║
+// ║  ViewModel das estatísticas                  ║
+// ║  Calcula os números das partidas             ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.Partida

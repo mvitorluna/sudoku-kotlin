@@ -1,10 +1,17 @@
 package com.example.sudoku.ui.novojogo
 
+// ╔══════════════════════════════════════════════╗
+// ║  TecladoNumerico.kt                          ║
+// ║  Componente do teclado numérico              ║
+// ║  Números + Apagar + Dica                     ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -74,44 +81,51 @@ fun TecladoNumerico(
     }
 }
 
+// ── Previews ─────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun TecladoNumericoFacilPreview() {
-    TecladoNumerico(
-        nivel = Nivel.FACIL,
-        dicasRestantes = 3,
-        habilitado = true,
-        onNumeroClick = {},
-        onApagar = {},
-        onDica = {},
-        modifier = Modifier.padding(16.dp)
-    )
+    MaterialTheme {
+        TecladoNumerico(
+            nivel = Nivel.FACIL,
+            dicasRestantes = 3,
+            habilitado = true,
+            onNumeroClick = {},
+            onApagar = {},
+            onDica = {},
+            modifier = Modifier.padding(16.dp)
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun TecladoNumericoMedioPreview() {
-    TecladoNumerico(
-        nivel = Nivel.MEDIO,
-        dicasRestantes = 2,
-        habilitado = true,
-        onNumeroClick = {},
-        onApagar = {},
-        onDica = {},
-        modifier = Modifier.padding(16.dp)
-    )
+    MaterialTheme {
+        TecladoNumerico(
+            nivel = Nivel.MEDIO,
+            dicasRestantes = 2,
+            habilitado = true,
+            onNumeroClick = {},
+            onApagar = {},
+            onDica = {},
+            modifier = Modifier.padding(16.dp)
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun TecladoNumericoDificilPreview() {
-    TecladoNumerico(
-        nivel = Nivel.DIFICIL,
-        dicasRestantes = 1,
-        habilitado = true,
-        onNumeroClick = {},
-        onApagar = {},
-        onDica = {},
-        modifier = Modifier.padding(16.dp)
-    )
+    MaterialTheme {
+        TecladoNumerico(
+            nivel = Nivel.DIFICIL,
+            dicasRestantes = 1,
+            habilitado = true,
+            onNumeroClick = {},
+            onApagar = {},
+            onDica = {},
+            modifier = Modifier.padding(16.dp)
+        )
+    }
 }

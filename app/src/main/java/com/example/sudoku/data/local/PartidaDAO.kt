@@ -1,5 +1,11 @@
 package com.example.sudoku.data.local
 
+// ╔══════════════════════════════════════════════╗
+// ║  PartidaDAO.kt                               ║
+// ║  DAO: consultas da tabela partidas           ║
+// ║  inserir · buscar · atualizar · deletar      ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.room3.Dao
 import androidx.room3.Delete
 import androidx.room3.Insert

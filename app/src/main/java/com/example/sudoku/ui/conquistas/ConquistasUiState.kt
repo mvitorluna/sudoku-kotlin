@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.conquistas
 
+// ╔══════════════════════════════════════════════╗
+// ║  ConquistasUiState.kt                        ║
+// ║  Estado da tela de conquistas                ║
+// ║  O que a AbaConquistas mostra                ║
+// ╚══════════════════════════════════════════════╝
+
 import com.example.sudoku.logic.RegraConquista
 import com.example.sudoku.logic.RegrasConquistas
 import java.text.SimpleDateFormat

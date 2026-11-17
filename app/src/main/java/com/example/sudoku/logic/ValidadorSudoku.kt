@@ -1,5 +1,11 @@
 package com.example.sudoku.logic
 
+// ╔══════════════════════════════════════════════╗
+// ║  ValidadorSudoku.kt                          ║
+// ║  Regras de validação do tabuleiro            ║
+// ║  Conflitos, grupos completos, vitória        ║
+// ╚══════════════════════════════════════════════╝
+
 object ValidadorSudoku {
 
     fun temConflito(tabuleiro: List<List<Int>>, linha: Int, coluna: Int, nivel: Nivel): Boolean {

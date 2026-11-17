@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.jogo
 
+// ╔══════════════════════════════════════════════╗
+// ║  ResultadoJogo.kt                            ║
+// ║  Resultado no fim da partida                 ║
+// ║  Pontos, conquistas e publicar ranking       ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Spring
@@ -275,6 +281,7 @@ fun UmaConquistaNova(regra: RegraConquista) {
     }
 }
 
+// ── Preview ──────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ResultadoJogoPreview() {

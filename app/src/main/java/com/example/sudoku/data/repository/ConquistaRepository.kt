@@ -1,5 +1,11 @@
 package com.example.sudoku.data.repository
 
+// ╔══════════════════════════════════════════════╗
+// ║  ConquistaRepository.kt                      ║
+// ║  Repository das conquistas                   ║
+// ║  Recebe os DAOs e trata as exceções          ║
+// ╚══════════════════════════════════════════════╝
+
 import com.example.sudoku.data.local.Conquista
 import com.example.sudoku.data.local.ConquistaDAO
 import com.example.sudoku.data.local.Partida

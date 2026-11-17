@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.historico
 
+// ╔══════════════════════════════════════════════╗
+// ║  ListaPartidas.kt                            ║
+// ║  Sub-aba Partidas                            ║
+// ║  Lista com filtros + UmaPartida              ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -275,6 +281,7 @@ fun UmaPartida(
 private fun formatarData(data: Long): String =
     SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.forLanguageTag("pt-BR")).format(Date(data))
 
+// ── Preview ──────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ConteudoPartidasPreview() {

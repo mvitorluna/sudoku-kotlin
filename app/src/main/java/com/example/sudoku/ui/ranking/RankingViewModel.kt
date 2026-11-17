@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.ranking
 
+// ╔══════════════════════════════════════════════╗
+// ║  RankingViewModel.kt                         ║
+// ║  ViewModel do ranking                        ║
+// ║  Filtra e ordena o Top 20                    ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.remote.RankingRemoto

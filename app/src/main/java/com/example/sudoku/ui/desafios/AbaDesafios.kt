@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.desafios
 
+// ╔══════════════════════════════════════════════╗
+// ║  AbaDesafios.kt                              ║
+// ║  ABA Desafios (jogador)                      ║
+// ║  Lista de desafios ativos para jogar         ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -170,17 +176,20 @@ fun CardDesafio(
     }
 }
 
+// ── Preview ──────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun ConteudoDesafiosPreview() {
-    ConteudoDesafios(
-        uiState = DesafiosUiState(
-            desafios = listOf(
-                DesafioEntity("1", "Cronômetro 3 Min", "Teste rápido", "CRONOMETRO", 180, 45, 1, 3, true, 1, true)
+    MaterialTheme {
+        ConteudoDesafios(
+            uiState = DesafiosUiState(
+                desafios = listOf(
+                    DesafioEntity("1", "Cronômetro 3 Min", "Teste rápido", "CRONOMETRO", 180, 45, 1, 3, true, 1, true)
+                ),
+                carregando = false
             ),
-            carregando = false
-        ),
-        onAbrirDesafio = {},
-        onErroVisto = {}
-    )
+            onAbrirDesafio = {},
+            onErroVisto = {}
+        )
+    }
 }

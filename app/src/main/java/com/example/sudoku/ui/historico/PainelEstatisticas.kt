@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.historico
 
+// ╔══════════════════════════════════════════════╗
+// ║  PainelEstatisticas.kt                       ║
+// ║  Sub-aba Estatísticas                        ║
+// ║  Vitórias, tempos e pontos por nível         ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -127,6 +133,7 @@ fun UmNivelEstatistica(estatistica: EstatisticaNivel) {
     }
 }
 
+// ── Preview ──────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ConteudoEstatisticasPreview() {

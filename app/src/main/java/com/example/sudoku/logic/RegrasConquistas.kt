@@ -1,5 +1,11 @@
 package com.example.sudoku.logic
 
+// ╔══════════════════════════════════════════════╗
+// ║  RegrasConquistas.kt                         ║
+// ║  Lista de todas as conquistas                ║
+// ║  Título, meta e como medir o progresso       ║
+// ╚══════════════════════════════════════════════╝
+
 import com.example.sudoku.data.local.Partida
 
 data class RegraConquista(

@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.novojogo
 
+// ╔══════════════════════════════════════════════╗
+// ║  NovoJogoViewModel.kt                        ║
+// ║  ViewModel da aba Jogar                      ║
+// ║  Partidas e vitórias por nível               ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.Partida

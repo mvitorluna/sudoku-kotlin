@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.jogo
 
+// ╔══════════════════════════════════════════════╗
+// ║  JogoViewModel.kt                            ║
+// ║  ViewModel da partida                        ║
+// ║  Regras do jogo + cronômetro + salvar        ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.Partida

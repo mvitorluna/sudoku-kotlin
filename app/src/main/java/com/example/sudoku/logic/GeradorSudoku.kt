@@ -1,5 +1,11 @@
 package com.example.sudoku.logic
 
+// ╔══════════════════════════════════════════════╗
+// ║  GeradorSudoku.kt                            ║
+// ║  Gera um Sudoku novo para o nível            ║
+// ║  Fórmula + embaralhar + esvaziar casas       ║
+// ╚══════════════════════════════════════════════╝
+
 import kotlin.random.Random
 
 object GeradorSudoku {

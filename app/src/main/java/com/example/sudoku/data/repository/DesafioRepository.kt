@@ -1,5 +1,11 @@
 package com.example.sudoku.data.repository
 
+// ╔══════════════════════════════════════════════╗
+// ║  DesafioRepository.kt                        ║
+// ║  Repository dos desafios                     ║
+// ║  Recebe o DAO e trata as exceções            ║
+// ╚══════════════════════════════════════════════╝
+
 import com.example.sudoku.data.local.DesafioDAO
 import com.example.sudoku.data.local.DesafioEntity
 import kotlinx.coroutines.flow.Flow

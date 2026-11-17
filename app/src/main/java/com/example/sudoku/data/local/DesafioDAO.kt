@@ -1,5 +1,11 @@
 package com.example.sudoku.data.local
 
+// ╔══════════════════════════════════════════════╗
+// ║  DesafioDAO.kt                               ║
+// ║  DAO: consultas da tabela desafios           ║
+// ║  buscar · inserir · atualizar                ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.room3.Dao
 import androidx.room3.Insert
 import androidx.room3.OnConflictStrategy

@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.historico
 
+// ╔══════════════════════════════════════════════╗
+// ║  HistoricoViewModel.kt                       ║
+// ║  ViewModel do histórico                      ║
+// ║  Filtrar, ordenar, favoritar, excluir        ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.Partida

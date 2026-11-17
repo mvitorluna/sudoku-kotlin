@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.ranking
 
+// ╔══════════════════════════════════════════════╗
+// ║  AdminRankingUiState.kt                      ║
+// ║  Estado da aba Moderar Ranking               ║
+// ║  Lista, estatísticas e exclusão              ║
+// ╚══════════════════════════════════════════════╝
+
 import com.example.sudoku.data.remote.RankingRemoto
 import com.example.sudoku.logic.Nivel
 import java.util.Locale

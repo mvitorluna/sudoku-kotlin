@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.desafios
 
+// ╔══════════════════════════════════════════════╗
+// ║  DesafiosViewModel.kt                        ║
+// ║  ViewModel dos desafios                      ║
+// ║  Usado pelo jogador e pelo admin             ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.DesafioEntity

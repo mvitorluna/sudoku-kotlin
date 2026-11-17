@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.conquistas
 
+// ╔══════════════════════════════════════════════╗
+// ║  ConquistasViewModel.kt                      ║
+// ║  ViewModel das conquistas                    ║
+// ║  Guarda o estado que sobrevive à rotação     ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.Conquista

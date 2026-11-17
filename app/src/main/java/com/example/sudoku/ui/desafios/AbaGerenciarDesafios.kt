@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.desafios
 
+// ╔══════════════════════════════════════════════╗
+// ║  AbaGerenciarDesafios.kt                     ║
+// ║  ABA Gerenciar Desafios (admin)              ║
+// ║  Ativar, desativar e editar desafios         ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -225,4 +231,24 @@ fun DialogEditarDesafio(
             }
         }
     )
+}
+
+// ── Preview ──────────────────────────────────
+@Preview(showBackground = true)
+@Composable
+fun ConteudoGerenciarDesafiosPreview() {
+    MaterialTheme {
+        ConteudoGerenciarDesafios(
+            uiState = DesafiosUiState(
+                desafios = listOf(
+                    DesafioEntity("1", "Cronômetro 3 Min", "Teste rápido", "CRONOMETRO", 180, 45, 1, 3, true, 1, false),
+                    DesafioEntity("2", "Sem Dicas", "Sem nenhuma dica", "SEM_DICAS", 0, 45, 0, 3, false, 2, false)
+                ),
+                carregando = false
+            ),
+            onAlternarAtivo = {},
+            onAtualizarDesafio = {},
+            onErroVisto = {}
+        )
+    }
 }

@@ -1,5 +1,11 @@
 package com.example.sudoku.data.local
 
+// ╔══════════════════════════════════════════════╗
+// ║  DesafioEntity.kt                            ║
+// ║  Entidade (tabela) dos desafios              ║
+// ║  Desafios fixos que o admin gerencia         ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey
 

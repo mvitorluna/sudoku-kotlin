@@ -1,5 +1,11 @@
 package com.example.sudoku.data.repository
 
+// ╔══════════════════════════════════════════════╗
+// ║  PartidaRepository.kt                        ║
+// ║  Repository das partidas                     ║
+// ║  Recebe o DAO e trata as exceções            ║
+// ╚══════════════════════════════════════════════╝
+
 import com.example.sudoku.data.local.Partida
 import com.example.sudoku.data.local.PartidaDAO
 import kotlinx.coroutines.flow.Flow

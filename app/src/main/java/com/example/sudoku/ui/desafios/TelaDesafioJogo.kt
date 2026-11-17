@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.desafios
 
+// ╔══════════════════════════════════════════════╗
+// ║  TelaDesafioJogo.kt                          ║
+// ║  TELA do jogo de um desafio                  ║
+// ║  Recebe o desafio pela rota                  ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

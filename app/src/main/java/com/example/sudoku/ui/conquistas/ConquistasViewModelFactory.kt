@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.conquistas
 
+// ╔══════════════════════════════════════════════╗
+// ║  ConquistasViewModelFactory.kt               ║
+// ║  Factory do ConquistasViewModel              ║
+// ║  Entrega o Repository ao ViewModel           ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.sudoku.data.repository.ConquistaRepository

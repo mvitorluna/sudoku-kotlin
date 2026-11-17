@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.jogo
 
+// ╔══════════════════════════════════════════════╗
+// ║  JogoViewModelFactory.kt                     ║
+// ║  Factory do JogoViewModel                    ║
+// ║  Recebe nível e semente da rota              ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.sudoku.data.repository.ConquistaRepository

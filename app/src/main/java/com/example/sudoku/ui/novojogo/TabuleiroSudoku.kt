@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.novojogo
 
+// ╔══════════════════════════════════════════════╗
+// ║  TabuleiroSudoku.kt                          ║
+// ║  Componente do tabuleiro                     ║
+// ║  Desenha as casas e os blocos                ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -206,20 +212,27 @@ private fun TabuleiroDeExemplo(nivel: Nivel) {
     )
 }
 
+// ── Previews ─────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun TabuleiroSudokuFacilPreview() {
-    TabuleiroDeExemplo(Nivel.FACIL)
+    MaterialTheme {
+        TabuleiroDeExemplo(Nivel.FACIL)
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun TabuleiroSudokuMedioPreview() {
-    TabuleiroDeExemplo(Nivel.MEDIO)
+    MaterialTheme {
+        TabuleiroDeExemplo(Nivel.MEDIO)
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun TabuleiroSudokuDificilPreview() {
-    TabuleiroDeExemplo(Nivel.DIFICIL)
+    MaterialTheme {
+        TabuleiroDeExemplo(Nivel.DIFICIL)
+    }
 }

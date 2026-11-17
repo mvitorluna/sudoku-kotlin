@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.ranking
 
+// ╔══════════════════════════════════════════════╗
+// ║  AdminRankingViewModel.kt                    ║
+// ║  ViewModel da moderação do ranking           ║
+// ║  Estatísticas por nível + excluir            ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.remote.RankingRemoto

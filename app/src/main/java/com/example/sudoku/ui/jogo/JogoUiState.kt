@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.jogo
 
+// ╔══════════════════════════════════════════════╗
+// ║  JogoUiState.kt                              ║
+// ║  Estado da partida                           ║
+// ║  Tabuleiro, erros, dicas, tempo, status      ║
+// ╚══════════════════════════════════════════════╝
+
 import com.example.sudoku.logic.Nivel
 import com.example.sudoku.logic.RegraConquista
 

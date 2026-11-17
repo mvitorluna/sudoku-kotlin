@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.ranking
 
+// ╔══════════════════════════════════════════════╗
+// ║  RankingUiState.kt                           ║
+// ║  Estado da aba Ranking                       ║
+// ║  Itens, filtro e busca                       ║
+// ╚══════════════════════════════════════════════╝
+
 import com.example.sudoku.data.remote.RankingRemoto
 import com.example.sudoku.logic.Nivel
 

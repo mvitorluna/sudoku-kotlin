@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.navegacao
 
+// ╔══════════════════════════════════════════════╗
+// ║  AppNavigation.kt                            ║
+// ║  Define TODAS as rotas do app (NavHost)      ║
+// ║  Conecta cada rota ao Composable correto     ║
+// ╚══════════════════════════════════════════════╝
+
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -13,40 +19,39 @@ import com.example.sudoku.ui.jogo.TelaJogo
 
 @Composable
 fun AppNavigation() {
+    // Cria o controlador de navegação (gerencia pilha de telas)
     val navController = rememberNavController()
 
+    // Diferente da aula, não criamos ViewModel aqui:
+    // cada tela cria o seu pela Factory, com o Repository que precisa
+
+    // NavHost = "mapa" de todas as telas do app
     NavHost(
         navController = navController,
-        startDestination = Rotas.INICIO,
-        // Tela nova entra pela direita; ao voltar, ela sai pela direita
+        startDestination = Rotas.HOME,  // tela que abre primeiro
+        // Animação: tela nova entra pela direita; ao voltar, ela sai pela direita
         enterTransition = { slideInHorizontally { it } + fadeIn() },
         exitTransition = { slideOutHorizontally { -it / 3 } + fadeOut() },
         popEnterTransition = { slideInHorizontally { -it / 3 } + fadeIn() },
         popExitTransition = { slideOutHorizontally { it } + fadeOut() }
     ) {
-        composable(Rotas.INICIO) {
-            TelaInicial(
-                onJogar = { navController.navigate(Rotas.JOGADOR) },
-                onAdmin = { navController.navigate(Rotas.ADMIN) }
-            )
+
+        // Rota: "home" → abre TelaPrincipal
+        composable(Rotas.HOME) {
+            TelaPrincipal(navController = navController)
         }
 
+        // Rota: "jogador" → abre TelaJogador (TopBar + BottomNavigation com 5 abas)
         composable(Rotas.JOGADOR) {
-            TelaJogador(
-                onVoltar = { navController.popBackStack() },
-                onAbrirJogo = { nivel, semente ->
-                    navController.navigate(Rotas.jogo(nivel, semente))
-                },
-                onAbrirDesafio = { desafioId ->
-                    navController.navigate(Rotas.desafioJogo(desafioId, System.currentTimeMillis()))
-                }
-            )
+            TelaJogador(navController = navController)
         }
 
+        // Rota: "admin" → abre TelaAdmin (TopBar + BottomNavigation com 2 abas)
         composable(Rotas.ADMIN) {
-            TelaAdmin(onVoltar = { navController.popBackStack() })
+            TelaAdmin(navController = navController)
         }
 
+        // Rota: "jogo/{nivel}/{semente}" → recebe argumentos pela URL
         composable(Rotas.JOGO) { backStackEntry ->
             val nivel = backStackEntry.arguments?.getString("nivel") ?: "FACIL"
             val semente = backStackEntry.arguments?.getString("semente")?.toLongOrNull() ?: 0L
@@ -57,6 +62,7 @@ fun AppNavigation() {
             )
         }
 
+        // Rota: "desafio_jogo/{desafioId}/{semente}" → recebe argumentos pela URL
         composable(Rotas.DESAFIO_JOGO) { backStackEntry ->
             val desafioId = backStackEntry.arguments?.getString("desafioId") ?: ""
             val semente = backStackEntry.arguments?.getString("semente")?.toLongOrNull() ?: 0L

@@ -1,5 +1,11 @@
 package com.example.sudoku.ui.novojogo
 
+// ╔══════════════════════════════════════════════╗
+// ║  NovoJogoUiState.kt                          ║
+// ║  Estado da aba Jogar                         ║
+// ║  Nível escolhido e números de cada nível     ║
+// ╚══════════════════════════════════════════════╝
+
 import com.example.sudoku.logic.Nivel
 
 data class ResumoNivel(
