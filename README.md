@@ -35,17 +35,6 @@ São 3 níveis, e cada nível muda o tamanho do tabuleiro. Todo jogo é gerado n
 
 > Não tem login. A tela inicial tem só os botões **Jogar** e **Admin**.
 
-## Telas
-
-<!-- Adicionar os prints em docs/prints/ -->
-| Início | Jogar | Partida | Histórico |
-|---|---|---|---|
-| ![Início](docs/prints/inicio.png) | ![Jogar](docs/prints/jogar.png) | ![Partida](docs/prints/partida.png) | ![Histórico](docs/prints/historico.png) |
-
-| Desafios | Ranking | Conquistas | Admin |
-|---|---|---|---|
-| ![Desafios](docs/prints/desafios.png) | ![Ranking](docs/prints/ranking.png) | ![Conquistas](docs/prints/conquistas.png) | ![Admin](docs/prints/admin.png) |
-
 ## Vídeo
 
 <!-- Colocar o link do vídeo de demonstração -->
