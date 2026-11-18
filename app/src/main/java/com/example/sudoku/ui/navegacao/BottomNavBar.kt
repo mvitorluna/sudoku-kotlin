@@ -1,12 +1,5 @@
 package com.example.sudoku.ui.navegacao
 
-// ╔══════════════════════════════════════════════╗
-// ║  BottomNavBar.kt                             ║
-// ║  Barras de navegação inferior                ║
-// ║  Jogador (5 abas) · Admin (2 abas)           ║
-// ║  Destaca automaticamente a aba ativa         ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Flag
@@ -27,7 +20,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
-// Troca de aba sem empilhar: o "voltar" do celular não passa por todas as abas visitadas
 fun navegarParaAba(navInterno: NavHostController, rota: String) {
     navInterno.navigate(rota) {
         popUpTo(navInterno.graph.startDestinationId) { saveState = true }
@@ -36,17 +28,12 @@ fun navegarParaAba(navInterno: NavHostController, rota: String) {
     }
 }
 
-// ------ BARRA DO JOGADOR ------
 @Composable
 fun BottomNavBarJogador(navInterno: NavHostController, temConquistaNova: Boolean = false) {
-
-    // Observa qual rota está ativa (atualiza automaticamente)
     val backStackEntry by navInterno.currentBackStackEntryAsState()
     val rotaAtual = backStackEntry?.destination?.route
 
     NavigationBar {
-
-        // Aba 1: Jogar
         NavigationBarItem(
             selected = rotaAtual == RotasAbas.ABA_JOGAR,
             onClick  = { navegarParaAba(navInterno, RotasAbas.ABA_JOGAR) },
@@ -54,7 +41,6 @@ fun BottomNavBarJogador(navInterno: NavHostController, temConquistaNova: Boolean
             label    = { Text("Jogar") }
         )
 
-        // Aba 2: Desafios
         NavigationBarItem(
             selected = rotaAtual == RotasAbas.ABA_DESAFIOS,
             onClick  = { navegarParaAba(navInterno, RotasAbas.ABA_DESAFIOS) },
@@ -62,7 +48,6 @@ fun BottomNavBarJogador(navInterno: NavHostController, temConquistaNova: Boolean
             label    = { Text("Desafios") }
         )
 
-        // Aba 3: Histórico
         NavigationBarItem(
             selected = rotaAtual == RotasAbas.ABA_HISTORICO,
             onClick  = { navegarParaAba(navInterno, RotasAbas.ABA_HISTORICO) },
@@ -70,7 +55,6 @@ fun BottomNavBarJogador(navInterno: NavHostController, temConquistaNova: Boolean
             label    = { Text("Histórico") }
         )
 
-        // Aba 4: Ranking
         NavigationBarItem(
             selected = rotaAtual == RotasAbas.ABA_RANKING,
             onClick  = { navegarParaAba(navInterno, RotasAbas.ABA_RANKING) },
@@ -78,7 +62,6 @@ fun BottomNavBarJogador(navInterno: NavHostController, temConquistaNova: Boolean
             label    = { Text("Ranking") }
         )
 
-        // Aba 5: Conquistas (com bolinha de aviso quando tem conquista nova)
         NavigationBarItem(
             selected = rotaAtual == RotasAbas.ABA_CONQUISTAS,
             onClick  = { navegarParaAba(navInterno, RotasAbas.ABA_CONQUISTAS) },
@@ -92,17 +75,12 @@ fun BottomNavBarJogador(navInterno: NavHostController, temConquistaNova: Boolean
     }
 }
 
-// ------ BARRA DO ADMIN ------
 @Composable
 fun BottomNavBarAdmin(navInterno: NavHostController) {
-
-    // Observa qual rota está ativa (atualiza automaticamente)
     val backStackEntry by navInterno.currentBackStackEntryAsState()
     val rotaAtual = backStackEntry?.destination?.route
 
     NavigationBar {
-
-        // Aba 1: Gerenciar Desafios
         NavigationBarItem(
             selected = rotaAtual == RotasAbas.ABA_ADMIN_DESAFIOS,
             onClick  = { navegarParaAba(navInterno, RotasAbas.ABA_ADMIN_DESAFIOS) },
@@ -110,7 +88,6 @@ fun BottomNavBarAdmin(navInterno: NavHostController) {
             label    = { Text("Desafios") }
         )
 
-        // Aba 2: Moderar Ranking
         NavigationBarItem(
             selected = rotaAtual == RotasAbas.ABA_ADMIN_RANKING,
             onClick  = { navegarParaAba(navInterno, RotasAbas.ABA_ADMIN_RANKING) },
@@ -120,7 +97,6 @@ fun BottomNavBarAdmin(navInterno: NavHostController) {
     }
 }
 
-// ── Previews ─────────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun BottomNavBarJogadorPreview() {

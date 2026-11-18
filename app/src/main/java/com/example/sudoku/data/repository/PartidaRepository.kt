@@ -1,11 +1,5 @@
 package com.example.sudoku.data.repository
 
-// ╔══════════════════════════════════════════════╗
-// ║  PartidaRepository.kt                        ║
-// ║  Repository das partidas                     ║
-// ║  Recebe o DAO e trata as exceções            ║
-// ╚══════════════════════════════════════════════╝
-
 import com.example.sudoku.data.local.Partida
 import com.example.sudoku.data.local.PartidaDAO
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +7,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
 class PartidaRepository(private val partidaDao: PartidaDAO) {
-
     fun getAllPartidas(): Flow<Resultado<List<Partida>>> =
         partidaDao.buscarTodos()
             .map<List<Partida>, Resultado<List<Partida>>> { Resultado.Sucesso(it) }

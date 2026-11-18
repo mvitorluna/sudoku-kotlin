@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.jogo
 
-// ╔══════════════════════════════════════════════╗
-// ║  TelaJogo.kt                                 ║
-// ║  TELA do jogo                                ║
-// ║  Recebe nível e semente pela rota            ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -74,7 +68,6 @@ fun TelaJogo(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    // Sair no meio do jogo pede confirmação; depois que acabou, sai direto
     val pedirParaSair = { if (uiState.acabou) onVoltar() else viewModel.onPedirSair() }
     BackHandler { pedirParaSair() }
 
@@ -160,7 +153,6 @@ fun ConteudoJogo(
                 }
             }
 
-            // Na vitória espera a onda do tabuleiro terminar antes de mostrar o resultado
             var mostrarResultado by remember { mutableStateOf(uiState.acabou) }
             LaunchedEffect(uiState.acabou) {
                 if (uiState.status == StatusJogo.VENCEU) delay(1000)
@@ -232,7 +224,6 @@ fun ConteudoJogo(
     }
 }
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ConteudoJogoPreview() {

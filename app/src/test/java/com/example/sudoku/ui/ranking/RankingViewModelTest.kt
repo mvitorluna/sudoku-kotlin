@@ -17,7 +17,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-// Substitui o Firebase nos testes: guarda o ranking numa lista, sem internet
 class RankingFirestoreFalso : RankingFirestore() {
     private val itens = MutableStateFlow(
         listOf(
@@ -39,7 +38,6 @@ class RankingFirestoreFalso : RankingFirestore() {
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RankingViewModelTest {
-
     private lateinit var viewModel: RankingViewModel
 
     @Before

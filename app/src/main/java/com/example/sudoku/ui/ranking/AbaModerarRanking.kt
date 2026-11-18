@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.ranking
 
-// ╔══════════════════════════════════════════════╗
-// ║  AbaModerarRanking.kt                        ║
-// ║  ABA Moderar Ranking (admin)                 ║
-// ║  Painel por nível + excluir registros        ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -125,7 +119,6 @@ fun ConteudoModerarRanking(
             )
         }
 
-        // Painel de Estatísticas por Nível
         item {
             Text(
                 text = "Painel Estatístico por Nível",
@@ -275,7 +268,6 @@ fun CardModerarRankingItem(
     }
 }
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun ConteudoModerarRankingPreview() {

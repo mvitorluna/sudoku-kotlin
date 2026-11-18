@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.historico
 
-// ╔══════════════════════════════════════════════╗
-// ║  ListaPartidas.kt                            ║
-// ║  Sub-aba Partidas                            ║
-// ║  Lista com filtros + UmaPartida              ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -186,7 +180,6 @@ fun ConteudoPartidas(
                         onClick = { onPartidaClick(partida) },
                         onFavoritar = { onFavoritar(partida) },
                         onDelete = { onDelete(partida) },
-                        // Anima a entrada, saída e reordenação do item na lista
                         modifier = Modifier.animateItem()
                     )
                 }
@@ -264,7 +257,6 @@ fun UmaPartida(
                 }
             }
 
-            // Os detalhes abrem e fecham deslizando em vez de aparecer de uma vez
             AnimatedVisibility(visible = expandida) {
                 Column {
                     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp, horizontal = 0.dp))
@@ -281,7 +273,6 @@ fun UmaPartida(
 private fun formatarData(data: Long): String =
     SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.forLanguageTag("pt-BR")).format(Date(data))
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ConteudoPartidasPreview() {

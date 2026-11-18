@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.desafios
 
-// ╔══════════════════════════════════════════════╗
-// ║  AbaGerenciarDesafios.kt                     ║
-// ║  ABA Gerenciar Desafios (admin)              ║
-// ║  Ativar, desativar e editar desafios         ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -233,7 +227,6 @@ fun DialogEditarDesafio(
     )
 }
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun ConteudoGerenciarDesafiosPreview() {

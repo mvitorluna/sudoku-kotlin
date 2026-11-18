@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.ranking
 
-// ╔══════════════════════════════════════════════╗
-// ║  AbaRanking.kt                               ║
-// ║  ABA Ranking (jogador)                       ║
-// ║  Top 20 global com filtro e busca            ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -89,7 +83,6 @@ fun ConteudoRanking(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Barra de busca
         OutlinedTextField(
             value = uiState.buscaNome,
             onValueChange = onBuscaNome,
@@ -101,7 +94,6 @@ fun ConteudoRanking(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Filtro por Nível (Chips)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -179,9 +171,9 @@ fun ConteudoRanking(
 @Composable
 fun ItemRankingCard(itemUi: RankingItemUi) {
     val containerColor = when (itemUi.posicao) {
-        1 -> Color(0xFFFFF9C4) // Gold light
-        2 -> Color(0xFFF5F5F5) // Silver light
-        3 -> Color(0xFFFFE0B2) // Bronze light
+        1 -> Color(0xFFFFF9C4)
+        2 -> Color(0xFFF5F5F5)
+        3 -> Color(0xFFFFE0B2)
         else -> MaterialTheme.colorScheme.surfaceVariant
     }
 
@@ -243,7 +235,6 @@ fun ItemRankingCard(itemUi: RankingItemUi) {
     }
 }
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun ConteudoRankingPreview() {

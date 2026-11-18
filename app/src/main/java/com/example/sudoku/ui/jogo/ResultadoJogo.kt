@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.jogo
 
-// ╔══════════════════════════════════════════════╗
-// ║  ResultadoJogo.kt                            ║
-// ║  Resultado no fim da partida                 ║
-// ║  Pontos, conquistas e publicar ranking       ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Spring
@@ -69,7 +63,6 @@ fun ResultadoJogo(
 ) {
     val venceu = uiState.status == StatusJogo.VENCEU
 
-    // Ícone entra com uma mola (quica). Na derrota ele também balança de lado.
     val entrada = remember { Animatable(0f) }
     LaunchedEffect(Unit) {
         entrada.animateTo(
@@ -78,7 +71,6 @@ fun ResultadoJogo(
         )
     }
 
-    // Pontos sobem de 0 até o total
     var pontosAlvo by remember { mutableIntStateOf(0) }
     LaunchedEffect(uiState.pontos) { pontosAlvo = uiState.pontos }
     val pontosAnimados by animateIntAsState(pontosAlvo, tween(1200), label = "pontos")
@@ -182,7 +174,6 @@ fun ResultadoJogo(
             }
         }
 
-        // Confete por cima de tudo, só na vitória
         if (venceu) Confetes(Modifier.matchParentSize())
     }
 }
@@ -196,7 +187,6 @@ private data class Confete(
     val cor: Color
 )
 
-// Pedacinhos coloridos caindo e girando, desenhados num Canvas. Toca uma vez só (3,5 s).
 @Composable
 private fun Confetes(modifier: Modifier = Modifier) {
     val cores = listOf(
@@ -223,7 +213,6 @@ private fun Confetes(modifier: Modifier = Modifier) {
 
     Canvas(modifier = modifier) {
         confetes.forEach { c ->
-            // t vai de 0 (topo) a 1 (fundo); cada confete começa num momento diferente
             val t = (tempo.value - c.atraso) * c.velocidade / 0.5f
             if (t in 0f..1f) {
                 val centro = Offset(
@@ -281,7 +270,6 @@ fun UmaConquistaNova(regra: RegraConquista) {
     }
 }
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ResultadoJogoPreview() {

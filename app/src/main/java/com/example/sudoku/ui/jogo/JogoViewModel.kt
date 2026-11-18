@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.jogo
 
-// ╔══════════════════════════════════════════════╗
-// ║  JogoViewModel.kt                            ║
-// ║  ViewModel da partida                        ║
-// ║  Regras do jogo + cronômetro + salvar        ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.Partida
@@ -33,11 +27,9 @@ class JogoViewModel(
     private val conquistaRepository: ConquistaRepository,
     private val rankingRepository: RankingRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(JogoUiState())
     val uiState: StateFlow<JogoUiState> = _uiState.asStateFlow()
 
-    // O gabarito não vai para o UiState: a tela não pode saber a resposta
     private var gabarito: List<List<Int>> = emptyList()
 
     private var cronometro: Job? = null
@@ -48,8 +40,6 @@ class JogoViewModel(
 
     fun onCasaClick(linha: Int, coluna: Int) {
         val estado = _uiState.value
-        // Casa fixa também pode ser selecionada: serve para destacar o mesmo número no tabuleiro.
-        // Quem impede de escrever nela é o onNumeroClick/onApagar.
         if (estado.acabou) return
         _uiState.update { it.copy(selecionada = Pair(linha, coluna)) }
     }
@@ -59,7 +49,6 @@ class JogoViewModel(
         val (linha, coluna) = estado.selecionada ?: return
         if (estado.acabou || Pair(linha, coluna) in estado.fixas) return
 
-        // Cria um tabuleiro novo: o StateFlow só avisa a tela quando recebe um objeto diferente
         val novoTabuleiro = estado.tabuleiro.map { it.toMutableList() }
         novoTabuleiro[linha][coluna] = numero
 
@@ -108,7 +97,6 @@ class JogoViewModel(
             it.copy(
                 tabuleiro = novoTabuleiro,
                 conflitos = ValidadorSudoku.conflitos(novoTabuleiro, nivel),
-                // A casa da dica vira fixa: o jogador não pode apagar a resposta certa
                 fixas = it.fixas + Pair(linha, coluna),
                 dicasRestantes = it.dicasRestantes - 1,
                 selecionada = null
@@ -157,7 +145,6 @@ class JogoViewModel(
     }
 
     private fun novoJogo() {
-        // Semente 0 = jogo aleatório. Outra semente = desafio, sempre o mesmo Sudoku
         val random = if (semente == 0L) Random.Default else Random(semente)
         val sudoku = GeradorSudoku.gerar(nivel, random)
         gabarito = sudoku.gabarito
@@ -177,7 +164,6 @@ class JogoViewModel(
         iniciarCronometro()
     }
 
-    // O cronômetro fica no ViewModel para continuar contando quando a tela gira
     private fun iniciarCronometro() {
         cronometro?.cancel()
         cronometro = viewModelScope.launch {

@@ -1,12 +1,5 @@
 package com.example.sudoku.ui.navegacao
 
-// ╔══════════════════════════════════════════════╗
-// ║  TelaJogador.kt                              ║
-// ║  TELA 2: TopBar + BottomNavigation + Abas    ║
-// ║  (a TelaComAbas da aula, com 5 abas)         ║
-// ║  Tem seu próprio NavController interno       ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -43,7 +36,6 @@ import com.example.sudoku.ui.ranking.AbaRanking
 @Composable
 fun TelaJogador(
     navController: NavHostController,
-    // Só para a bolinha de "conquista nova" na barra de baixo
     conquistasViewModel: ConquistasViewModel = viewModel(
         factory = ConquistasViewModelFactory(
             ConquistaRepository(
@@ -53,8 +45,6 @@ fun TelaJogador(
         )
     )
 ) {
-
-    // NavController INTERNO — só para navegar entre as abas
     val navInterno = rememberNavController()
     val conquistasUiState by conquistasViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -63,7 +53,6 @@ fun TelaJogador(
             TopAppBar(
                 title = { Text("Sudoku") },
                 navigationIcon = {
-                    // Botão de voltar — usa o navController PRINCIPAL
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -79,7 +68,6 @@ fun TelaJogador(
             )
         },
         bottomBar = {
-            // Barra de navegação inferior — usa navController INTERNO
             BottomNavBarJogador(
                 navInterno = navInterno,
                 temConquistaNova = conquistasUiState.temNovaNaoVista
@@ -87,13 +75,11 @@ fun TelaJogador(
         }
     ) { padding ->
 
-        // NavHost INTERNO — controla qual aba está ativa
         NavHost(
             navController = navInterno,
             startDestination = RotasAbas.ABA_JOGAR,
             modifier = Modifier.padding(padding)
         ) {
-            // Abrir um jogo usa o navController PRINCIPAL (a TelaJogo fica fora das abas)
             composable(RotasAbas.ABA_JOGAR) {
                 AbaJogar(onAbrirJogo = { nivel, semente ->
                     navController.navigate(Rotas.jogo(nivel, semente))
@@ -111,7 +97,6 @@ fun TelaJogador(
     }
 }
 
-// ── Preview ──────────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun TelaJogadorPreview() {

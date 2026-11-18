@@ -1,12 +1,5 @@
 package com.example.sudoku.ui.navegacao
 
-// ╔══════════════════════════════════════════════╗
-// ║  TelaPrincipal.kt                            ║
-// ║  TELA 1: TopAppBar + botões de navegação     ║
-// ║  Usa Scaffold para estruturar a tela         ║
-// ║  Jogar → TelaJogador · Admin → TelaAdmin     ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,10 +26,8 @@ import androidx.navigation.compose.rememberNavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelaPrincipal(navController: NavHostController) {
-
     Scaffold(
         topBar = {
-            // Barra superior com título
             TopAppBar(
                 title = { Text("Sudoku") },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -59,7 +50,6 @@ fun TelaPrincipal(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Navegar para a área do jogador (tela com BottomNavigation)
             Button(
                 onClick = { navController.navigate(Rotas.JOGADOR) },
                 modifier = Modifier.fillMaxWidth()
@@ -69,7 +59,6 @@ fun TelaPrincipal(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Navegar para a área do admin (tela com BottomNavigation)
             OutlinedButton(
                 onClick = { navController.navigate(Rotas.ADMIN) },
                 modifier = Modifier.fillMaxWidth()
@@ -80,7 +69,6 @@ fun TelaPrincipal(navController: NavHostController) {
     }
 }
 
-// ── Preview ──────────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun TelaPrincipalPreview() {

@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.desafios
 
-// ╔══════════════════════════════════════════════╗
-// ║  AbaDesafios.kt                              ║
-// ║  ABA Desafios (jogador)                      ║
-// ║  Lista de desafios ativos para jogar         ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -176,7 +170,6 @@ fun CardDesafio(
     }
 }
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun ConteudoDesafiosPreview() {

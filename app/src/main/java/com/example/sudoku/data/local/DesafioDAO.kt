@@ -1,11 +1,5 @@
 package com.example.sudoku.data.local
 
-// ╔══════════════════════════════════════════════╗
-// ║  DesafioDAO.kt                               ║
-// ║  DAO: consultas da tabela desafios           ║
-// ║  buscar · inserir · atualizar                ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.room3.Dao
 import androidx.room3.Insert
 import androidx.room3.OnConflictStrategy
@@ -15,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DesafioDAO {
-
     @Query("SELECT * FROM desafios ORDER BY ordem ASC")
     fun buscarTodos(): Flow<List<DesafioEntity>>
 

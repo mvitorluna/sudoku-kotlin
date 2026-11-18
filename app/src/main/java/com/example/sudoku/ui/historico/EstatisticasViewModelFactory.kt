@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.historico
 
-// ╔══════════════════════════════════════════════╗
-// ║  EstatisticasViewModelFactory.kt             ║
-// ║  Factory do EstatisticasViewModel            ║
-// ║  Entrega o Repository ao ViewModel           ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.sudoku.data.repository.PartidaRepository
@@ -13,7 +7,6 @@ import com.example.sudoku.data.repository.PartidaRepository
 class EstatisticasViewModelFactory(
     private val repository: PartidaRepository
 ) : ViewModelProvider.Factory {
-
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EstatisticasViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

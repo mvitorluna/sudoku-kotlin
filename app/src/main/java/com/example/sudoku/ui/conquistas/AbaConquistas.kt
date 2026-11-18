@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.conquistas
 
-// ╔══════════════════════════════════════════════╗
-// ║  AbaConquistas.kt                            ║
-// ║  ABA Conquistas (jogador)                    ║
-// ║  Grade de medalhas com progresso             ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -238,7 +232,6 @@ fun UmaConquista(item: ConquistaItem) {
     }
 }
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ConteudoConquistasPreview() {

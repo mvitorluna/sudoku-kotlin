@@ -1,11 +1,5 @@
 package com.example.sudoku.data.local
 
-// ╔══════════════════════════════════════════════╗
-// ║  ConquistaDAO.kt                             ║
-// ║  DAO: consultas da tabela conquistas         ║
-// ║  inserir · buscar · atualizar · deletar      ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.room3.Dao
 import androidx.room3.Insert
 import androidx.room3.OnConflictStrategy
@@ -15,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ConquistaDAO {
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun inserir(conquista: Conquista)
 

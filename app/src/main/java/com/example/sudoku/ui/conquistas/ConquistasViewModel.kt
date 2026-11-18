@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.conquistas
 
-// ╔══════════════════════════════════════════════╗
-// ║  ConquistasViewModel.kt                      ║
-// ║  ViewModel das conquistas                    ║
-// ║  Guarda o estado que sobrevive à rotação     ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.Conquista
@@ -22,7 +16,6 @@ import kotlinx.coroutines.launch
 class ConquistasViewModel(
     private val repository: ConquistaRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(ConquistasUiState())
     val uiState: StateFlow<ConquistasUiState> = _uiState.asStateFlow()
 

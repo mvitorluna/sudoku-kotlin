@@ -22,7 +22,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HistoricoViewModelTest {
-
     private val partidas = listOf(
         Partida(id = 1, nivel = "FACIL", venceu = true, tempoSegundos = 50, erros = 0, dicasUsadas = 0, pontos = 950, data = 1),
         Partida(id = 2, nivel = "MEDIO", venceu = false, tempoSegundos = 300, erros = 3, dicasUsadas = 0, pontos = 0, data = 2),

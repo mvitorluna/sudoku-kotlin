@@ -1,11 +1,5 @@
 package com.example.sudoku.data.repository
 
-// ╔══════════════════════════════════════════════╗
-// ║  ConquistaRepository.kt                      ║
-// ║  Repository das conquistas                   ║
-// ║  Recebe os DAOs e trata as exceções          ║
-// ╚══════════════════════════════════════════════╝
-
 import com.example.sudoku.data.local.Conquista
 import com.example.sudoku.data.local.ConquistaDAO
 import com.example.sudoku.data.local.Partida
@@ -20,7 +14,6 @@ class ConquistaRepository(
     private val conquistaDao: ConquistaDAO,
     private val partidaDao: PartidaDAO
 ) {
-
     fun getAllConquistas(): Flow<Resultado<List<Conquista>>> =
         conquistaDao.buscarTodos()
             .map<List<Conquista>, Resultado<List<Conquista>>> { Resultado.Sucesso(it) }

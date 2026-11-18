@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.desafios
 
-// ╔══════════════════════════════════════════════╗
-// ║  DesafiosViewModelFactory.kt                 ║
-// ║  Factory do DesafiosViewModel                ║
-// ║  Entrega o Repository ao ViewModel           ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.sudoku.data.repository.DesafioRepository

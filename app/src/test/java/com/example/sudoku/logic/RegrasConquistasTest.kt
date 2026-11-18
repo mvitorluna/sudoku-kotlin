@@ -8,7 +8,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class RegrasConquistasTest {
-
     private fun partida(
         venceu: Boolean = true,
         nivel: String = "FACIL",

@@ -1,11 +1,5 @@
 package com.example.sudoku.data.remote
 
-// ╔══════════════════════════════════════════════╗
-// ║  RankingFirestore.kt                         ║
-// ║  Acesso ao Firebase (coleção ranking)        ║
-// ║  Faz para o Firebase o papel do DAO          ║
-// ╚══════════════════════════════════════════════╝
-
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.snapshots
@@ -14,11 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 
-// Faz para o Firebase o papel que o DAO faz para o Room.
-// "open" só para os testes poderem trocar por um falso, sem internet.
 open class RankingFirestore {
-
-    // lazy: o Firebase só é acessado quando alguém usa a coleção (o falso dos testes nunca usa)
     private val colecao by lazy { Firebase.firestore.collection("ranking") }
 
     open suspend fun inicializarRankingPadrao() {
@@ -38,7 +28,6 @@ open class RankingFirestore {
         }
     }
 
-    // snapshots(): o Flow emite de novo sempre que o ranking muda no Firebase, igual ao Flow do Room
     open fun buscarTodos(): Flow<List<RankingRemoto>> =
         colecao.snapshots().map { it.toObjects<RankingRemoto>() }
 

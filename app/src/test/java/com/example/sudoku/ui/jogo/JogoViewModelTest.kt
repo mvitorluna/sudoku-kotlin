@@ -28,8 +28,6 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class JogoViewModelTest {
-
-    // Mesma semente nos testes e no ViewModel = mesmo Sudoku, então o teste sabe o gabarito
     private val semente = 42L
     private val nivel = Nivel.FACIL
     private val gabarito = GeradorSudoku.gerar(nivel, Random(semente)).gabarito
@@ -61,11 +59,9 @@ class JogoViewModelTest {
             .filter { (l, c) -> tabuleiro[l][c] == 0 }
     }
 
-    // Casa vazia numa linha que já tem número, para conseguir provocar um erro
     private fun casaVaziaComNumeroNaLinha(): Pair<Int, Int> =
         casasVazias().first { (l, _) -> viewModel.uiState.value.tabuleiro[l].any { it != 0 } }
 
-    // Um número que já existe na mesma linha da casa: sempre gera conflito
     private fun numeroRepetidoNaLinha(linha: Int): Int =
         viewModel.uiState.value.tabuleiro[linha].first { it != 0 }
 

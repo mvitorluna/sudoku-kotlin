@@ -1,15 +1,8 @@
 package com.example.sudoku.ui.jogo
 
-// ╔══════════════════════════════════════════════╗
-// ║  JogoUiState.kt                              ║
-// ║  Estado da partida                           ║
-// ║  Tabuleiro, erros, dicas, tempo, status      ║
-// ╚══════════════════════════════════════════════╝
-
 import com.example.sudoku.logic.Nivel
 import com.example.sudoku.logic.RegraConquista
 
-// Máquina de estados da partida: começa EM_ANDAMENTO e termina em VENCEU ou PERDEU
 enum class StatusJogo {
     EM_ANDAMENTO,
     VENCEU,

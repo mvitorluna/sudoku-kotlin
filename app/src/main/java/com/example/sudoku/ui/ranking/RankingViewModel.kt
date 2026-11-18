@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.ranking
 
-// ╔══════════════════════════════════════════════╗
-// ║  RankingViewModel.kt                         ║
-// ║  ViewModel do ranking                        ║
-// ║  Filtra e ordena o Top 20                    ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.remote.RankingRemoto
@@ -21,7 +15,6 @@ import kotlinx.coroutines.launch
 class RankingViewModel(
     private val repository: RankingRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(RankingUiState())
     val uiState: StateFlow<RankingUiState> = _uiState.asStateFlow()
 
@@ -69,7 +62,6 @@ class RankingViewModel(
             .filter { estado.filtroNivel == null || it.nivel == estado.filtroNivel.name }
             .filter { estado.buscaNome.isBlank() || it.nomeJogador.contains(estado.buscaNome, ignoreCase = true) }
 
-        // Ordenar por pontos desc, e desempata pelo menor tempo asc
         val ordenados = filtrados.sortedWith(
             compareByDescending<RankingRemoto> { it.pontos }
                 .thenBy { it.tempoSegundos }

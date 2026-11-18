@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.novojogo
 
-// ╔══════════════════════════════════════════════╗
-// ║  AbaJogar.kt                                 ║
-// ║  ABA Jogar (jogador)                         ║
-// ║  Cards dos 3 níveis para começar             ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -167,7 +161,6 @@ fun UmNivel(
     }
 }
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun ConteudoJogarPreview() {

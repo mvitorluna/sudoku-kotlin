@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.historico
 
-// ╔══════════════════════════════════════════════╗
-// ║  AbaHistorico.kt                             ║
-// ║  ABA Histórico (jogador)                     ║
-// ║  Sub-abas Partidas e Estatísticas            ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,7 +40,6 @@ fun AbaHistorico() {
     }
 }
 
-// ── Preview ──────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AbaHistoricoPreview() {

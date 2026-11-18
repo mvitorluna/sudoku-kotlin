@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.historico
 
-// ╔══════════════════════════════════════════════╗
-// ║  EstatisticasUiState.kt                      ║
-// ║  Estado da sub-aba Estatísticas              ║
-// ║  Totais e números por nível                  ║
-// ╚══════════════════════════════════════════════╝
-
 import com.example.sudoku.logic.Nivel
 
 data class EstatisticaNivel(

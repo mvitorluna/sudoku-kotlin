@@ -43,7 +43,6 @@ private class ConquistaDaoFalso(inicial: List<Conquista>, val falhar: Boolean = 
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ConquistasViewModelTest {
-
     @Before
     fun preparar() = Dispatchers.setMain(UnconfinedTestDispatcher())
 

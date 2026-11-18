@@ -7,7 +7,6 @@ import org.junit.Test
 import kotlin.random.Random
 
 class ValidadorSudokuTest {
-
     @Test
     fun testarGabaritoCompletoVenceu() {
         val sudoku = GeradorSudoku.gerar(Nivel.FACIL, Random(1))
@@ -19,7 +18,6 @@ class ValidadorSudokuTest {
 
     @Test
     fun testarGruposCompletos() {
-        // Só a primeira linha está cheia; nenhuma coluna ou bloco fecha
         val tabuleiro = listOf(
             listOf(1, 2, 3, 4),
             listOf(3, 4, 0, 0),
@@ -27,14 +25,11 @@ class ValidadorSudokuTest {
             listOf(0, 0, 0, 0)
         )
         val casas = ValidadorSudoku.casasEmGruposCompletos(tabuleiro, Nivel.FACIL)
-        // Linha 0 inteira + bloco do canto superior esquerdo (1,2,3,4)
         assertEquals(setOf(0 to 0, 0 to 1, 0 to 2, 0 to 3, 1 to 0, 1 to 1), casas)
 
-        // Gabarito de 6x6 inteiro: todas as casas estão em grupo completo
         val gabarito = GeradorSudoku.gerar(Nivel.MEDIO, Random(3)).gabarito
         assertEquals(36, ValidadorSudoku.casasEmGruposCompletos(gabarito, Nivel.MEDIO).size)
 
-        // Linha cheia mas com número repetido não conta
         val comConflito = listOf(
             listOf(1, 1, 3, 4),
             listOf(0, 0, 0, 0),

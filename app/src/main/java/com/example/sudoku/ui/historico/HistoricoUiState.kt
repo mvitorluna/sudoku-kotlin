@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.historico
 
-// ╔══════════════════════════════════════════════╗
-// ║  HistoricoUiState.kt                         ║
-// ║  Estado da sub-aba Partidas                  ║
-// ║  Lista, filtros e ordenação                  ║
-// ╚══════════════════════════════════════════════╝
-
 import com.example.sudoku.data.local.Partida
 import com.example.sudoku.logic.Nivel
 

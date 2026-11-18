@@ -1,11 +1,5 @@
 package com.example.sudoku.logic
 
-// ╔══════════════════════════════════════════════╗
-// ║  RegrasConquistas.kt                         ║
-// ║  Lista de todas as conquistas                ║
-// ║  Título, meta e como medir o progresso       ║
-// ╚══════════════════════════════════════════════╝
-
 import com.example.sudoku.data.local.Partida
 
 data class RegraConquista(
@@ -21,7 +15,6 @@ data class RegraConquista(
 }
 
 object RegrasConquistas {
-
     val todas: List<RegraConquista> = listOf(
         RegraConquista("PRIMEIRA_VITORIA", "Primeira vitória", "Vença uma partida", 1) { partidas ->
             partidas.count { it.venceu }

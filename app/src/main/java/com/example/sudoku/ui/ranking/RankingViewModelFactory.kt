@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.ranking
 
-// ╔══════════════════════════════════════════════╗
-// ║  RankingViewModelFactory.kt                  ║
-// ║  Factory do RankingViewModel                 ║
-// ║  Entrega o Repository ao ViewModel           ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.sudoku.data.repository.RankingRepository

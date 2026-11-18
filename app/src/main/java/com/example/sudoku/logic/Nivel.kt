@@ -1,11 +1,5 @@
 package com.example.sudoku.logic
 
-// ╔══════════════════════════════════════════════╗
-// ║  Nivel.kt                                    ║
-// ║  Os 3 níveis do jogo                         ║
-// ║  Tamanho, blocos, casas vazias, dicas        ║
-// ╚══════════════════════════════════════════════╝
-
 enum class Nivel(
     val titulo: String,
     val tamanho: Int,

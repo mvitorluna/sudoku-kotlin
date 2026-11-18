@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.desafios
 
-// ╔══════════════════════════════════════════════╗
-// ║  TelaDesafioJogo.kt                          ║
-// ║  TELA do jogo de um desafio                  ║
-// ║  Recebe o desafio pela rota                  ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -153,7 +147,7 @@ fun TelaDesafioJogo(
     var selecionada by remember { mutableStateOf<Pair<Int, Int>?>(null) }
     var erros by remember { mutableIntStateOf(0) }
     var dicasRestantes by remember { mutableIntStateOf(d.dicas) }
-    
+
     val isCountdown = d.tempoLimiteSegundos > 0
     var tempoSegundos by remember { mutableIntStateOf(if (isCountdown) d.tempoLimiteSegundos else 0) }
     var jogoAcabou by remember { mutableStateOf(false) }

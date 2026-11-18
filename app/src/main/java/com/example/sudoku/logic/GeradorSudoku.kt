@@ -1,15 +1,8 @@
 package com.example.sudoku.logic
 
-// ╔══════════════════════════════════════════════╗
-// ║  GeradorSudoku.kt                            ║
-// ║  Gera um Sudoku novo para o nível            ║
-// ║  Fórmula + embaralhar + esvaziar casas       ║
-// ╚══════════════════════════════════════════════╝
-
 import kotlin.random.Random
 
 object GeradorSudoku {
-
     fun gerar(nivel: Nivel, random: Random = Random.Default): Sudoku {
         val gabarito = montarGabarito(nivel, random)
         val tabuleiro = esvaziarCasas(gabarito, nivel, random)

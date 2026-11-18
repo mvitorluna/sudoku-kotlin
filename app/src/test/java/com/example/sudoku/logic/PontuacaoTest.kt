@@ -4,7 +4,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class PontuacaoTest {
-
     @Test
     fun testarCalculoPontuacaoNormal() {
         val pontos = Pontuacao.calcular(Nivel.FACIL, 60, 1, 1)

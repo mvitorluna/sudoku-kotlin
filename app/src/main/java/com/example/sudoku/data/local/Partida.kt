@@ -1,11 +1,5 @@
 package com.example.sudoku.data.local
 
-// ╔══════════════════════════════════════════════╗
-// ║  Partida.kt                                  ║
-// ║  Entidade (tabela) das partidas              ║
-// ║  Uma linha por partida terminada             ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey
 

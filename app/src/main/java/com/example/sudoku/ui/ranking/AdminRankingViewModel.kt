@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.ranking
 
-// ╔══════════════════════════════════════════════╗
-// ║  AdminRankingViewModel.kt                    ║
-// ║  ViewModel da moderação do ranking           ║
-// ║  Estatísticas por nível + excluir            ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.remote.RankingRemoto
@@ -21,7 +15,6 @@ import kotlinx.coroutines.launch
 class AdminRankingViewModel(
     private val repository: RankingRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(AdminRankingUiState())
     val uiState: StateFlow<AdminRankingUiState> = _uiState.asStateFlow()
 
@@ -74,7 +67,6 @@ class AdminRankingViewModel(
         viewModelScope.launch {
             when (val resultado = repository.deletar(item.id)) {
                 is Resultado.Sucesso -> {
-                    // Flow automático atualiza a lista, mas podemos garantir se necessário
                 }
                 is Resultado.Erro -> {
                     _uiState.update { it.copy(erro = resultado.mensagem) }
@@ -93,7 +85,7 @@ class AdminRankingViewModel(
             val total = itensDoNivel.size
             val media = if (total > 0) itensDoNivel.map { it.pontos }.average() else 0.0
             val melhorTempo = if (total > 0) itensDoNivel.minOfOrNull { it.tempoSegundos } else null
-            
+
             val maisFrequente = if (total > 0) {
                 itensDoNivel.groupBy { it.nomeJogador }
                     .maxByOrNull { it.value.size }?.key

@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.desafios
 
-// ╔══════════════════════════════════════════════╗
-// ║  DesafiosViewModel.kt                        ║
-// ║  ViewModel dos desafios                      ║
-// ║  Usado pelo jogador e pelo admin             ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.DesafioEntity
@@ -21,7 +15,6 @@ class DesafiosViewModel(
     private val repository: DesafioRepository,
     private val apenasAtivos: Boolean = true
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(DesafiosUiState())
     val uiState: StateFlow<DesafiosUiState> = _uiState.asStateFlow()
 

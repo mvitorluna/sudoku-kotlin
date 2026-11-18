@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.novojogo
 
-// ╔══════════════════════════════════════════════╗
-// ║  TabuleiroSudoku.kt                          ║
-// ║  Componente do tabuleiro                     ║
-// ║  Desenha as casas e os blocos                ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -60,10 +54,8 @@ fun TabuleiroSudoku(
         Nivel.DIFICIL -> 16.sp
     }
 
-    // Número da casa selecionada (0 = casa vazia, não destaca nada)
     val valorSelecionado = selecionada?.let { (l, c) -> tabuleiro[l][c] } ?: 0
 
-    // Casas em linha/coluna/bloco completo. Quando uma casa entra aqui, ela pisca.
     val completas = remember(tabuleiro) { ValidadorSudoku.casasEmGruposCompletos(tabuleiro, nivel) }
 
     fun mesmoBloco(a: Pair<Int, Int>, b: Pair<Int, Int>) =
@@ -104,7 +96,6 @@ fun TabuleiroSudoku(
                                                 mesmoBloco(casa, selecionada)
                                             ),
                                         completa = casa in completas,
-                                        // Atraso pela distância do canto: a piscada anda em onda
                                         atrasoMs = (linha + coluna) * 35,
                                         tamanhoFonte = tamanhoFonte,
                                         onClick = { onCasaClick(linha, coluna) },
@@ -142,8 +133,6 @@ private fun CasaSudoku(
         else -> MaterialTheme.colorScheme.surface
     }
 
-    // Piscada quando a casa passa a fazer parte de um grupo completo.
-    // Começa com o valor atual para não piscar ao abrir o jogo ou girar a tela.
     val brilho = remember { Animatable(0f) }
     var completaAntes by remember { mutableStateOf(completa) }
     LaunchedEffect(completa) {
@@ -155,7 +144,6 @@ private fun CasaSudoku(
             brilho.animateTo(0f, tween(450))
         }
     }
-    // Verde = acerto (o tertiary do tema é avermelhado e parecia erro)
     val corBrilho = Color(0xFF4CAF50)
 
     val corTexto = when {
@@ -212,7 +200,6 @@ private fun TabuleiroDeExemplo(nivel: Nivel) {
     )
 }
 
-// ── Previews ─────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun TabuleiroSudokuFacilPreview() {

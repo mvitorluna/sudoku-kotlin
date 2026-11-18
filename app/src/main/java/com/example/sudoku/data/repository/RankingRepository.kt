@@ -1,11 +1,5 @@
 package com.example.sudoku.data.repository
 
-// ╔══════════════════════════════════════════════╗
-// ║  RankingRepository.kt                        ║
-// ║  Repository do ranking (Firebase)            ║
-// ║  Recebe o Firestore e trata exceções         ║
-// ╚══════════════════════════════════════════════╝
-
 import com.example.sudoku.data.remote.RankingRemoto
 import com.example.sudoku.data.remote.RankingFirestore
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +7,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
 class RankingRepository(private val rankingFirestore: RankingFirestore) {
-
     suspend fun inicializarRankingPadrao() {
         rankingFirestore.inicializarRankingPadrao()
     }

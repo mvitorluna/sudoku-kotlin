@@ -5,7 +5,6 @@ import org.junit.Test
 import kotlin.random.Random
 
 class GeradorSudokuTest {
-
     @Test
     fun testarGeracaoParaTodosOsNiveis() {
         for (nivel in Nivel.entries) {

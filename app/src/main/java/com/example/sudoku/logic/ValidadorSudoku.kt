@@ -1,13 +1,6 @@
 package com.example.sudoku.logic
 
-// ╔══════════════════════════════════════════════╗
-// ║  ValidadorSudoku.kt                          ║
-// ║  Regras de validação do tabuleiro            ║
-// ║  Conflitos, grupos completos, vitória        ║
-// ╚══════════════════════════════════════════════╝
-
 object ValidadorSudoku {
-
     fun temConflito(tabuleiro: List<List<Int>>, linha: Int, coluna: Int, nivel: Nivel): Boolean {
         val valor = tabuleiro[linha][coluna]
         if (valor == 0) return false
@@ -48,8 +41,6 @@ object ValidadorSudoku {
         return resultado
     }
 
-    // Casas que fazem parte de uma linha, coluna ou bloco totalmente preenchido e sem conflito.
-    // A tela usa isso para fazer a animação de "completou uma linha".
     fun casasEmGruposCompletos(tabuleiro: List<List<Int>>, nivel: Nivel): Set<Pair<Int, Int>> {
         val n = nivel.tamanho
         val bl = nivel.linhasBloco

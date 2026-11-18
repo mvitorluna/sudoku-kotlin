@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.historico
 
-// ╔══════════════════════════════════════════════╗
-// ║  HistoricoViewModel.kt                       ║
-// ║  ViewModel do histórico                      ║
-// ║  Filtrar, ordenar, favoritar, excluir        ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.Partida
@@ -21,7 +15,6 @@ import kotlinx.coroutines.launch
 class HistoricoViewModel(
     private val repository: PartidaRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(HistoricoUiState())
     val uiState: StateFlow<HistoricoUiState> = _uiState.asStateFlow()
 

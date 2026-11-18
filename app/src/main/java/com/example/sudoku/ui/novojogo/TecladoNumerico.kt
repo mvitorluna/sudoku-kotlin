@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.novojogo
 
-// ╔══════════════════════════════════════════════╗
-// ║  TecladoNumerico.kt                          ║
-// ║  Componente do teclado numérico              ║
-// ║  Números + Apagar + Dica                     ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -81,7 +75,6 @@ fun TecladoNumerico(
     }
 }
 
-// ── Previews ─────────────────────────────────
 @Preview(showBackground = true)
 @Composable
 fun TecladoNumericoFacilPreview() {

@@ -1,12 +1,5 @@
 package com.example.sudoku.ui.navegacao
 
-// ╔══════════════════════════════════════════════╗
-// ║  TelaAdmin.kt                                ║
-// ║  TELA 3: TopBar + BottomNavigation + Abas    ║
-// ║  (a TelaComAbas da aula, com 2 abas)         ║
-// ║  Tem seu próprio NavController interno       ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -31,8 +24,6 @@ import com.example.sudoku.ui.ranking.AbaModerarRanking
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelaAdmin(navController: NavHostController) {
-
-    // NavController INTERNO — só para navegar entre as abas
     val navInterno = rememberNavController()
 
     Scaffold(
@@ -40,7 +31,6 @@ fun TelaAdmin(navController: NavHostController) {
             TopAppBar(
                 title = { Text("Admin") },
                 navigationIcon = {
-                    // Botão de voltar — usa o navController PRINCIPAL
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -56,12 +46,10 @@ fun TelaAdmin(navController: NavHostController) {
             )
         },
         bottomBar = {
-            // Barra de navegação inferior — usa navController INTERNO
             BottomNavBarAdmin(navInterno = navInterno)
         }
     ) { padding ->
 
-        // NavHost INTERNO — controla qual aba está ativa
         NavHost(
             navController = navInterno,
             startDestination = RotasAbas.ABA_ADMIN_DESAFIOS,
@@ -73,7 +61,6 @@ fun TelaAdmin(navController: NavHostController) {
     }
 }
 
-// ── Preview ──────────────────────────────────────
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun TelaAdminPreview() {

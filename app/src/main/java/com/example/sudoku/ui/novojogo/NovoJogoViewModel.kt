@@ -1,11 +1,5 @@
 package com.example.sudoku.ui.novojogo
 
-// ╔══════════════════════════════════════════════╗
-// ║  NovoJogoViewModel.kt                        ║
-// ║  ViewModel da aba Jogar                      ║
-// ║  Partidas e vitórias por nível               ║
-// ╚══════════════════════════════════════════════╝
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudoku.data.local.Partida
@@ -21,7 +15,6 @@ import kotlinx.coroutines.launch
 class NovoJogoViewModel(
     private val repository: PartidaRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(NovoJogoUiState())
     val uiState: StateFlow<NovoJogoUiState> = _uiState.asStateFlow()
 
